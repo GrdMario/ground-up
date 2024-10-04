@@ -1,0 +1,76 @@
+﻿@page
+@model GroundUp.Api.Pages.Memberships.MembershipModel
+@{
+}
+<div class="container">
+    <input asp-for="MembershipId" hidden />
+    @if (Model.MembershipViewModel == null)
+    {
+        <div class="py-4 card">
+            <h4 class="text-center">Memberships</h4>
+            <hr />
+            <div class="px-4">
+                <p>No active membership found.</p>
+            </div>
+
+        </div>
+    }
+
+    @if (Model.MembershipViewModel != null)
+    {
+        <div class="card">
+            <div class="py-4 border-bottom">
+                <h4 class="text-center">Membership</h4>
+            </div>
+
+            <div class="p-4">
+                <table class="table table-bordered">
+
+                   
+                    <tr>
+                        <th>Name</th>
+                        <td>@Model.MembershipViewModel.MembershipType.Name</td>
+                    </tr>
+
+                    <tr>
+                        <th>From</th>
+                        <td>@Model.MembershipViewModel.From.ToShortDateString()</td>
+                    </tr>
+
+                    <tr>
+                        <th>To</th>
+                        <td>@Model.MembershipViewModel.To.ToShortDateString()</td>
+                    </tr>
+                    <tr>
+                        <th>Number of Sessions</th>
+                        <td>@Model.MembershipViewModel.SessionCount</td>
+                    </tr>
+
+                </table>
+                <div class="row">
+                    <div class="offset-10 col-md-2">
+                        <form method="POST" asp-page-handler="AddNewSession">
+                            <input asp-for="MembershipId" id="create-new" hidden />
+                            <button type="submit" class="btn btn-outline-primary w-100"><i class="fa-solid fa-plus"> </i>  </button>
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+
+            @if (Model.MembershipViewModel.MembershipSessions.Count > 0)
+            {
+                <div class="px-4 pb-4">
+
+                    <div class="accordion" id="accordionExample">
+                        @foreach (var session in Model.MembershipViewModel.MembershipSessions)
+                        {
+                            <partial name="Shared/_UpdateMembershipSession" model="session" />
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

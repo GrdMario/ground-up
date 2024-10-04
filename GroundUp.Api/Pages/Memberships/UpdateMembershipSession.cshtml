@@ -1,0 +1,66 @@
+﻿@page
+@model GroundUp.Api.Pages.Memberships.UpdateModel
+@{
+}
+
+<div style="max-width: 800px; margin: auto" >
+    <form method="POST" asp-page-handler="Update">
+        <div class="card">
+
+            <input asp-for="Update.Id" id="Update.Id" hidden />
+            <input asp-for="Update.MembershipId" id="Update.MembershipId" hidden />
+            <div class="py-4 border-bottom">
+                <h4 class="text-center">@Model.FirstName @Model.LastName</h4>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            </div>
+            <div class="p-4 border-bottom">
+                <div class="row  mb-4">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Update.Start" class="my-2">Start</label>
+                            <input asp-for="Update.Start" id="Update.Id" class="form-control" type="datetime-local" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Update.End" class="my-2">End</label>
+                            <input asp-for="Update.End" id="Update.End" class="form-control" type="datetime-local" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="form-group form-check">
+                            <label class="form-check-label" for="Update.IsCompleted">Is completed</label>
+                            <input asp-for="Update.IsCompleted" id="Update.IsCompletged" class="form-check-input" type="checkbox" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group form-check">
+                            <label class="form-check-label" for="Updatel.IsCancelled">Is cancelled?</label>
+                            <input asp-for="Update.IsCancelled" id="Update.IsCancelled" class="form-check-input" type="checkbox" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="Update.Comment" class="mb-2">Comment</label>
+                            <textarea asp-for="Update.Comment" id="Update.Comment" class="form-control" rows="6"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-4">
+                <div class="col-md-2 offset-10">
+                    <button style="width: 100%" class="btn  btn-outline-primary" >Save</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>

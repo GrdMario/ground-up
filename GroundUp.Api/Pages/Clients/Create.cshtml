@@ -1,0 +1,111 @@
+﻿@page
+@model GroundUp.Api.Pages.Clients.CreateModel
+@{
+}
+
+<div style="max-width: 800px; margin: auto">
+    <form method="POST">
+
+        <div class="card">
+            <div class="py-4 border-bottom">
+                <h4 class="text-center">Add new client</h4>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            </div>
+            <div class="p-4 border-bottom">
+
+                <div class="row mb-2 mt-2">
+                    <div class="form-group col-md-6">
+                        <label asp-for="ClientViewModel.FirstName" class="mb-2">First Name</label>
+                        <input asp-for="ClientViewModel.FirstName" type="text" class="form-control" placeholder="First name">
+                        <small class="form-text text-muted">Enter first name of a client.</small>
+                        <div>
+                            <span asp-validation-for="ClientViewModel.FirstName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="ClientViewModel.LastName" class="mb-2">Last Name</label>
+                        <input asp-for="ClientViewModel.LastName" type=" text" class="form-control" placeholder="Last name">
+                        <small class="form-text text-muted">Enter last name of a client</small>
+                        <div>
+                            <span asp-validation-for="ClientViewModel.LastName" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="form-group col-md-6">
+                        <label asp-for="ClientViewModel.DateOfBirth" class="mb-2">Date of Birth</label>
+                        <input asp-for="ClientViewModel.DateOfBirth" type="date" class="form-control" placeholder="Date of birth">
+                        <small class="form-text text-muted">Enter birth date of a client</small>
+                        <div>
+                            <span asp-validation-for="ClientViewModel.DateOfBirth" class="text-danger"></span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="form-group col-md-6">
+                        <label asp-for="ClientViewModel.Email" class="mb-2">Email</label>
+                        <input asp-for="ClientViewModel.Email" type="email" class="form-control" placeholder="client@example.com" >
+                        <small class="form-text text-muted">Enter clients email. Eg. <strong>client@example.com</strong></small>
+                        <div>
+                            <span asp-validation-for="ClientViewModel.Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="ClientViewModel.PhoneNumber" for="phoneNumber" class="mb-2">Phone number</label>
+                        <input asp-for="ClientViewModel.PhoneNumber" type="text" class="form-control" placeholder="0915556666">
+                        <small class="form-text text-muted">Enter clients phone number. Eg. <strong>0915556666</strong>.</small>
+                        <div>
+                            <span asp-validation-for="ClientViewModel.PhoneNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="form-group col-md-8">
+                        <label asp-for="ClientViewModel.Address" for="adress" class="mb-2">Adress</label>
+                        <input asp-for="ClientViewModel.Address" type="text" class="form-control" placeholder="Adress">
+                        <small class="form-text text-muted">Enter clients address.</small>
+                        <div>
+                            <span asp-validation-for="ClientViewModel.Address" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for ="ClientViewModel.City" class="mb-2">
+                            City</label>
+                        <input asp-for="ClientViewModel.City" type="text" class="form-control" placeholder="City">
+                        <small class="form-text text-muted">Enter clients city.</small>
+                        <div>
+                            <span asp-validation-for="ClientViewModel.City" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="form-group">
+                        <label asp-for="ClientViewModel.Description" class="mb-2">Description</label>
+                        <textarea asp-for="ClientViewModel.Description" class="form-control" placeholder="Description" rows="6"></textarea>
+                        <small class="form-text text-muted">Enter general description of client.</small>
+                        <div>
+                            <span asp-validation-for="ClientViewModel.Description" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-4">
+                <div class="col-md-2 offset-10">
+                    <button style="width: 100%" class="btn  btn-outline-primary" asp-page-handler="UpdateInfo">Save</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

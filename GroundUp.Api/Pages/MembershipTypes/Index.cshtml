@@ -1,0 +1,62 @@
+﻿@page
+@model GroundUp.Api.Pages.MembershipsTypes.IndexModel
+@{
+}
+
+<div class="container">
+
+    @if (Model.MembershipTypes.Count == 0)
+    {
+        <div class="card">
+            <p>No  memberships types</p>
+        </div>
+    }
+
+    <div class="card">
+
+        <div class="row p-4">
+            <div class="col-md-11">
+                <h3>Memberships types</h3>
+
+            </div>
+            <div class="col-md-1">
+                <form method="POST">
+                    <a class="btn btn-outline-success" asp-page="./Create">  Create</a>
+                </form>
+            </div>
+        </div>
+
+        <div class="row p-4">
+            <div class="col-md-12">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Name</th>
+                            <th style="width: 100px"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var membershipType in Model.MembershipTypes)
+                        {
+                            <tr>
+                                <partial name="Shared/_ColorColumn" model="membershipType.Color" />
+                                
+                                <td>
+                                    @membershipType.Name
+                                </td>
+
+                                <td class="text-center">
+                                    <a asp-page="./MembershipType" asp-route-id="@membershipType.Id"> <i class="fa-solid fa-square-arrow-up-right"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tr>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>

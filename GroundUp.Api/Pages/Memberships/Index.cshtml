@@ -1,0 +1,70 @@
+﻿@page
+@model GroundUp.Api.Pages.Memberships.IndexModel
+@{
+}
+
+
+<div class="container">
+
+    @if (Model.Memberships.Count == 0)
+    {
+        <div class="card">
+            <p>No active memberships</p>
+        </div>
+    }
+
+    <div class="card">
+
+        <div class="row p-4">
+            <div class="col-md-11">
+                <h3>Active Memberships</h3>
+            </div>
+        </div>
+
+
+        <div class="row p-4">
+            <div class="col-md-12">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var client in Model.Memberships)
+                        {
+                            <tr>
+                                <partial name="Shared/_ColorColumn" model="@client.MembershipType.Color" />
+                                
+                                <td>
+                                    @client.MembershipClient.FirstName
+                                </td>
+                                <td>
+                                    @client.MembershipClient.LastName
+                                </td>
+                                <td>
+                                    @client.From.ToShortDateString()
+                                </td>
+                                <td>
+                                    @client.To.ToShortDateString()
+                                </td>
+
+                                <td class="text-center">
+                                    <a asp-page="./Membership" asp-route-id="@client.Id"> <i class="fa-solid fa-square-arrow-up-right"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tr>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
