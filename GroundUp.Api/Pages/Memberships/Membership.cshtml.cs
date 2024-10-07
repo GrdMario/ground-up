@@ -18,6 +18,7 @@ namespace GroundUp.Api.Pages.Memberships
         private readonly IMembershipService membershipService;
         private readonly IMembershipSessionService membershipSessionService;
         private readonly IMembershipTypeService membershipTypeService;
+        private readonly IClientService clientService;
 
         [BindProperty]
         public UpdateMembershipViewModel Update { get; set; } = new();
@@ -30,14 +31,19 @@ namespace GroundUp.Api.Pages.Memberships
         [BindProperty]
         public Guid MembershipId { get; set; }
 
+        [BindProperty]
+        public string ClientName { get; set; }
+
         public MembershipModel(
             IMembershipService membershipService,
             IMembershipSessionService membershipSessionService,
-            IMembershipTypeService membershipTypeService)
+            IMembershipTypeService membershipTypeService,
+            IClientService clientService)
         {
             this.membershipService = membershipService;
             this.membershipSessionService = membershipSessionService;
             this.membershipTypeService = membershipTypeService;
+            this.clientService = clientService;
         }
 
         public async Task OnGetAsync(Guid id, CancellationToken cancellationToken)
@@ -45,6 +51,11 @@ namespace GroundUp.Api.Pages.Memberships
             this.MembershipId = id;
 
             var membership = await this.membershipService.GetMembershipByIdAsync(id, cancellationToken);
+
+            var client = await this.clientService.GetByIdAsync(membership.ClientId, cancellationToken);
+
+            this.ClientName = $"{client.FirstName} {client.LastName}";
+
             var types = await this.membershipTypeService.GetAllAsync(cancellationToken);
 
             if (membership == null)

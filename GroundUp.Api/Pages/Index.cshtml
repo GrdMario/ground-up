@@ -11,15 +11,39 @@
     <div class="card px-4 py-2">
         <div class="row p-4 text-center">
             <div class="col-md-2">
-                <div>From</div>
-                <div>@Model.StartDate.ToShortDateString()</div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <button class="btn btn-primary w-100">
+                            <i class="fa-2x fa-solid fa-arrow-circle-left"></i>
+                        </button>
+                    </div>
+                    <div class="col-md-8 m-auto">
+                        <div>
+                            <strong>@Model.StartDate.ToShortDateString()</strong>
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <div class="col-md-8 text-center">
-                <h3>Ground up</h3>
+                <h3>GROUND UP</h3>
             </div>
             <div class="col-md-2">
-                <div>To</div>
-                <div>@Model.EndDate.ToShortDateString()</div>
+                <div class="row">
+
+                    <div class="col-md-8 m-auto">
+                        <div>
+                            <strong> @Model.EndDate.ToShortDateString()</strong>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-primary w-100">
+                            <i class="fa-2x fa-solid fa-arrow-circle-right"></i>
+                        </button>
+
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -67,11 +91,11 @@
                                 @if (hour < 10)
                                 {
                                     var prefixHour = "0" + hour + ":00";
-                                    <span>@prefixHour</span>
+                                    <span><strong>@prefixHour</strong></span>
                                 }
                                 else
                                 {
-                                    <span style="font-size: 16px">@hour:00</span>
+                                    <span style="font-size: 16px"><strong>@hour:00</strong></span>
                                 }
 
                             </td>
@@ -81,7 +105,7 @@
                             {
                                 var day = (DayOfWeek)(dayIndex + 1); // Convert index to DayOfWeek
 
-                                if (dayIndex ==  6)
+                                if (dayIndex == 6)
                                 {
                                     day = DayOfWeek.Sunday;
                                 }
@@ -99,8 +123,7 @@
                                     <div id="@fromDate.ToShortDateString()">
                                         <div class="d-flex justify-content-end align-items-center">
                                             <a asp-page="/Memberships/CreateMembershipSession" asp-route-year="@dayInWeek.Year" asp-route-month="@dayInWeek.Month" asp-route-day="@dayInWeek.Day" asp-route-hour="@hour"
-                                            
-                                            style="cursor: pointer; background-color: #f2f2f2; padding: 2px; border-radius: 10px; font-size: 10px; height: 20px; width: 20px; text-align: center">
+                                               style="cursor: pointer; background-color: #f2f2f2; padding: 2px; border-radius: 10px; font-size: 10px; height: 20px; width: 20px; text-align: center">
                                                 <i class="fa fa-plus"></i>
                                             </a>
                                         </div>

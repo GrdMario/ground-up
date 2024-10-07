@@ -254,6 +254,11 @@
                                 <td>@Model.ActiveMembership.DaysLeft</td>
                             </tr>
 
+                            <tr>
+                                <th>Sessions Left</th>
+                                <td>@Model.ActiveMembership.MembershipSessions.Where(ms => ms.Start == null && ms.End == null).Count()</td>
+                            </tr>
+
 
                         </table>
                         <div class="row">
