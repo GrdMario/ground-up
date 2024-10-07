@@ -96,6 +96,7 @@ namespace GroundUp.Api.Pages.Memberships
                 Id = membership.Id,
                 ClientId = this.MembershipViewModel.ClientId,
                 From = this.MembershipViewModel.From,
+                To = this.MembershipViewModel.To,
                 MembershipTypeId = membership.MembershipType.Id,
                 SessionCount = membership.SessionCount,
                 FrozenDate = membership.FrozenDate,

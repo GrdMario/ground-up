@@ -13,6 +13,10 @@
         [DataType(DataType.Date)]
         public DateTime From { get; set; }
 
+        [Required]
+        [DataType(DataType.Date)]
+        public DateTime To { get; set; }
+
         public DateTime? FrozenDate { get; set; }
 
         [Required]
