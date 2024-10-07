@@ -5,271 +5,287 @@
 
 <div class="container">
 
-<div class="row mb-4">
+    <div class="row mb-4">
 
-    <div class="col-md-6">
-        <div class="card">
-            <div class="border-bottom pb-4">
-                <form method="POST">
-                    <div class="py-4 border-bottom">
-                        <h4 class="text-center">Client Info</h4>
-                    </div>
-                    <div class="px-4 mb-4 border-bottom">
-                        <input asp-for="ClientViewModel.Id" type="text" hidden>
-
-                        <div class="row mb-2 mt-2">
-                            <div class="form-group col-md-6">
-                                <label asp-for="ClientViewModel.FirstName" class="mb-2">First Name</label>
-                                <input asp-for="ClientViewModel.FirstName" type="text" class="form-control" placeholder="First name">
-                                <small class="form-text text-muted">Enter first name of a client.</small>
-                                <div>
-                                    <span asp-validation-for="ClientViewModel.FirstName" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label asp-for="ClientViewModel.LastName" class="mb-2">Last Name</label>
-                                <input asp-for="ClientViewModel.LastName" type=" text" class="form-control" placeholder="Last name">
-                                <small class="form-text text-muted">Enter last name of a client</small>
-                                <div>
-                                    <span asp-validation-for="ClientViewModel.LastName" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row mb-2">
-                            <div class="form-group col-md-6">
-                                <label asp-for="ClientViewModel.DateOfBirth" class="mb-2">Date of Birth</label>
-                                <input asp-for="ClientViewModel.DateOfBirth" type="date" class="form-control" placeholder="Date of birth">
-                                <small class="form-text text-muted">Enter birth date of a client</small>
-                                <div>
-                                    <span asp-validation-for="ClientViewModel.DateOfBirth" class="text-danger"></span>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="row mb-2">
-                            <div class="form-group col-md-6">
-                                <label asp-for="ClientViewModel.Email" class="mb-2">Email</label>
-                                <input asp-for="ClientViewModel.Email" type="email" class="form-control" placeholder="client@example.com">
-                                <small class="form-text text-muted">Enter clients email. Eg. <strong>client@example.com</strong></small>
-                                <div>
-                                    <span asp-validation-for="ClientViewModel.Email" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label asp-for="ClientViewModel.PhoneNumber" for="phoneNumber" class="mb-2">Phone number</label>
-                                <input asp-for="ClientViewModel.PhoneNumber" type="text" class="form-control" placeholder="0915556666">
-                                <small class="form-text text-muted">Enter clients phone number. Eg. <strong>0915556666</strong>.</small>
-                                <div>
-                                    <span asp-validation-for="ClientViewModel.PhoneNumber" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="form-group col-md-8">
-                                <label asp-for="ClientViewModel.Address" for="adress" class="mb-2">Adress</label>
-                                <input asp-for="ClientViewModel.Address" type="text" class="form-control" placeholder="Adress">
-                                <small class="form-text text-muted">Enter clients address.</small>
-                                <div>
-                                    <span asp-validation-for="ClientViewModel.Address" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label asp-for="ClientViewModel.City" class="mb-2">
-                                    City
-                                </label>
-                                <input asp-for="ClientViewModel.City" type="text" class="form-control" placeholder="City">
-                                <small class="form-text text-muted">Enter clients city.</small>
-                                <div>
-                                    <span asp-validation-for="ClientViewModel.City" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row mb-2">
-                            <div class="form-group">
-                                <label asp-for="ClientViewModel.Description" class="mb-2">Description</label>
-                                <textarea asp-for="ClientViewModel.Description" class="form-control" placeholder="Description" rows="6"></textarea>
-                                <small class="form-text text-muted">Enter general description of client.</small>
-                                <div>
-                                    <span asp-validation-for="ClientViewModel.Description" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mt-2 px-4">
-                        <div class="col-md-2 offset-10">
-                            <button style="width: 100%" asp-page-handler="UpdateInfo" class="btn btn-outline-primary"><i class="fa-solid fa-floppy-disk"></i></button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            @if (Model.Memberships.Count == 0)
-            {
-                <div>
-                    <div class="py-4 border-bottom">
-                        <h4 class="text-center">Memberships</h4>
-                    </div>
-                    <div class="row px-4 py-4">
-                        <div class="col-md-2 offset-10">
-                            <a class="btn btn-outline-primary w-100"
-                               asp-page="/Memberships/CreateMembership"
-                               asp-route-name="@Model.ClientViewModel.FirstName @Model.ClientViewModel.LastName"
-                               asp-route-id="@Model.ClientViewModel.Id"><i class="fa-solid fa-plus"></i> </a>
-                        </div>
-                    </div>
-                </div>
-            }
-
-            @if (Model.Memberships.Count > 0)
-            {
-                <div>
-                    <div class="py-4 border-bottom">
-                        <h4 class="text-center">Memberships</h4>
-                    </div>
-
-                    <div class="px-4 border-bottom py-4 ">
-
-                        <table class="table table-bordered table-hover table-responsive">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Name</th>
-                                    <th>From</th>
-                                    <th>To</th>
-                                    <th>Is Frozen</th>
-                                    <th></th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var membership in Model.Memberships)
-                                {
-                                        var isFrozen = membership.FrozenDate != null;
-
-                                    <tr>
-                                        <partial name="Shared/_ColorColumn" model="membership.MembershipType.Color" />
-                                   
-                                        <td>@membership.MembershipType.Name</td>
-                                        <td>@membership.From.ToShortDateString()</td>
-                                        <td>@membership.To.ToShortDateString()</td>
-                                        <td>
-                                            @isFrozen
-                                        </td>
-                                        <td class="text-center">
-
-                                            <a asp-page="/Memberships/Membership"
-                                               asp-route-id="@membership.Id">
-                                                <i class="fa-solid fa-square-arrow-up-right"></i>
-                                            </a>
-
-                                        </td>
-                                    
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-
-
-                    <div class="row px-4 py-4">
-
-                        <div class="col-md-2 offset-10">
-                            <a class="btn btn-outline-primary"
-                               style="width:100%"
-                               asp-page="/Memberships/CreateMembership"
-                               asp-route-name="@Model.ClientViewModel.FirstName @Model.ClientViewModel.LastName"
-                               asp-route-id="@Model.ClientViewModel.Id">
-                                <i class="fa-solid fa-plus"> </i>
-
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            }
-
-        </div>
-
-    </div>
-
-    <div class="col-md-6">
-
-        @if (Model.ActiveMembership == null)
-        {
-
+        <div class="col-md-6">
             <div class="card">
-                <div class="py-4 border-bottom">
-                    <h4 class="text-center">Memberships</h4>
-                </div>
-                <div class="p-4 text-center">
-                    <span class="text-center">No active membership found.</span>
-                </div>
-            </div>
-        }
-
-        @if (Model.ActiveMembership != null)
-        {
-            <div class="card">
-                <div class="py-4 border-bottom">
-                    <h4 class="text-center">Active Membership</h4>
-                </div>
-
-                <div class="p-4">
-                    <table class="table table-bordered">
-     
-                        <tr>
-                            <th>Name</th>
-                            <td>@Model.ActiveMembership.MembershipType.Name</td>
-                        </tr>
-
-                        <tr>
-                            <th>From</th>
-                            <td>@Model.ActiveMembership.From.ToShortDateString()</td>
-                        </tr>
-
-                        <tr>
-                            <th>To</th>
-                            <td>@Model.ActiveMembership.To.ToShortDateString()</td>
-                        </tr>
-                        <tr>
-                            <th>Number of Sessions</th>
-                            <td>@Model.ActiveMembership.SessionCount</td>
-                        </tr>
-
-
-                    </table>
-                    <div class="row">
-                        <div class="offset-10 col-md-2">
-                            <form method="POST" asp-page-handler="AddNewSession">
-                                <input asp-for="ActiveMembershipId" hidden />
-                                <input asp-for="Id" hidden />
-                                <button type="submit" class="btn btn-outline-primary w-100"><i class="fa-solid fa-plus"> </i>  </button>
-                            </form>
-
+                <div class="border-bottom pb-4">
+                    <form method="POST">
+                        <div class="py-4 border-bottom">
+                            <h4 class="text-center">Client Info</h4>
                         </div>
+                        <div class="px-4 mb-4 border-bottom">
+                            <input asp-for="ClientViewModel.Id" type="text" hidden>
 
-                    </div>
+                            <div class="row mb-2 mt-2">
+                                <div class="form-group col-md-6">
+                                    <label asp-for="ClientViewModel.FirstName" class="mb-2">First Name</label>
+                                    <input asp-for="ClientViewModel.FirstName" type="text" class="form-control" placeholder="First name">
+                                    <small class="form-text text-muted">Enter first name of a client.</small>
+                                    <div>
+                                        <span asp-validation-for="ClientViewModel.FirstName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="ClientViewModel.LastName" class="mb-2">Last Name</label>
+                                    <input asp-for="ClientViewModel.LastName" type=" text" class="form-control" placeholder="Last name">
+                                    <small class="form-text text-muted">Enter last name of a client</small>
+                                    <div>
+                                        <span asp-validation-for="ClientViewModel.LastName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="form-group col-md-6">
+                                    <label asp-for="ClientViewModel.DateOfBirth" class="mb-2">Date of Birth</label>
+                                    <input asp-for="ClientViewModel.DateOfBirth" type="date" class="form-control" placeholder="Date of birth">
+                                    <small class="form-text text-muted">Enter birth date of a client</small>
+                                    <div>
+                                        <span asp-validation-for="ClientViewModel.DateOfBirth" class="text-danger"></span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="form-group col-md-6">
+                                    <label asp-for="ClientViewModel.Email" class="mb-2">Email</label>
+                                    <input asp-for="ClientViewModel.Email" type="email" class="form-control" placeholder="client@example.com">
+                                    <small class="form-text text-muted">Enter clients email. Eg. <strong>client@example.com</strong></small>
+                                    <div>
+                                        <span asp-validation-for="ClientViewModel.Email" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="ClientViewModel.PhoneNumber" for="phoneNumber" class="mb-2">Phone number</label>
+                                    <input asp-for="ClientViewModel.PhoneNumber" type="text" class="form-control" placeholder="0915556666">
+                                    <small class="form-text text-muted">Enter clients phone number. Eg. <strong>0915556666</strong>.</small>
+                                    <div>
+                                        <span asp-validation-for="ClientViewModel.PhoneNumber" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="form-group col-md-8">
+                                    <label asp-for="ClientViewModel.Address" for="adress" class="mb-2">Adress</label>
+                                    <input asp-for="ClientViewModel.Address" type="text" class="form-control" placeholder="Adress">
+                                    <small class="form-text text-muted">Enter clients address.</small>
+                                    <div>
+                                        <span asp-validation-for="ClientViewModel.Address" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label asp-for="ClientViewModel.City" class="mb-2">
+                                        City
+                                    </label>
+                                    <input asp-for="ClientViewModel.City" type="text" class="form-control" placeholder="City">
+                                    <small class="form-text text-muted">Enter clients city.</small>
+                                    <div>
+                                        <span asp-validation-for="ClientViewModel.City" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="form-group">
+                                    <label asp-for="ClientViewModel.Description" class="mb-2">Description</label>
+                                    <textarea asp-for="ClientViewModel.Description" class="form-control" placeholder="Description" rows="6"></textarea>
+                                    <small class="form-text text-muted">Enter general description of client.</small>
+                                    <div>
+                                        <span asp-validation-for="ClientViewModel.Description" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-2 px-4">
+                            <div class="col-md-2 offset-10">
+                                <button style="width: 100%" asp-page-handler="UpdateInfo" class="btn btn-outline-primary"><i class="fa-solid fa-floppy-disk"></i></button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
 
-
-                @if (Model.ActiveMembership.MembershipSessions.Count > 0)
+                @if (Model.Memberships.Count == 0)
                 {
-                    <div class="px-4 pb-4">
+                    <div>
+                        <div class="py-4 border-bottom">
+                            <h4 class="text-center">Memberships</h4>
+                        </div>
+                        <div class="row px-4 py-4">
+                            <div class="col-md-2 offset-10">
+                                <a class="btn btn-outline-primary w-100"
+                                   asp-page="/Memberships/CreateMembership"
+                                   asp-route-name="@Model.ClientViewModel.FirstName @Model.ClientViewModel.LastName"
+                                   asp-route-id="@Model.ClientViewModel.Id"><i class="fa-solid fa-plus"></i> </a>
+                            </div>
+                        </div>
+                    </div>
+                }
 
-                        <div class="accordion" id="accordionExample">
-                            @foreach (var session in Model.ActiveMembership.MembershipSessions)
-                            {
-                                <partial name="Shared/_UpdateMembershipSession" model="session" />
-                            }
+                @if (Model.Memberships.Count > 0)
+                {
+
+                    <div>
+                        <div class="py-4 border-bottom">
+                            <h4 class="text-center">Memberships</h4>
+                        </div>
+
+                        <div class="px-4 border-bottom py-4 ">
+
+                            <table class="table table-bordered table-hover table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Frozen</th>
+                                        <th>Name</th>
+                                        <th>From</th>
+                                        <th>To</th>
+                                        <th>Days Left</th>
+                                        <th></th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var membership in Model.Memberships)
+                                    {
+                                        <tr>
+                                            <partial name="Shared/_ColorColumn" model="membership.MembershipType.Color" />
+
+                                            <td class="text-center">
+                                                @if(membership.IsFrozen)
+                                                {
+                                                    <i class=" fa-solid fa-check"></i>
+                                                }
+                                            </td>
+                                            <td>@membership.MembershipType.Name</td>
+                                            <td>@membership.From.ToShortDateString()</td>
+                                            <td>@membership.To.ToShortDateString()</td>
+                                          
+                                            <td>@membership.DaysLeft</td>
+                                            <td class="text-center">
+
+                                                <a asp-page="/Memberships/Membership"
+                                                   asp-route-id="@membership.Id">
+                                                    <i class="fa-solid fa-square-arrow-up-right"></i>
+                                                </a>
+
+                                            </td>
+
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                        <div class="row px-4 py-4">
+
+                            <div class="col-md-2 offset-10">
+                                <a class="btn btn-outline-primary"
+                                   style="width:100%"
+                                   asp-page="/Memberships/CreateMembership"
+                                   asp-route-name="@Model.ClientViewModel.FirstName @Model.ClientViewModel.LastName"
+                                   asp-route-id="@Model.ClientViewModel.Id">
+                                    <i class="fa-solid fa-plus"> </i>
+
+                                </a>
+                            </div>
                         </div>
                     </div>
                 }
 
             </div>
-        }
+
+        </div>
+
+        <div class="col-md-6">
+
+            @if (Model.ActiveMembership == null)
+            {
+
+                <div class="card">
+                    <div class="py-4 border-bottom">
+                        <h4 class="text-center">Memberships</h4>
+                    </div>
+                    <div class="p-4 text-center">
+                        <span class="text-center">No active membership found.</span>
+                    </div>
+                </div>
+            }
+
+            @if (Model.ActiveMembership != null)
+            {
+                <div class="card">
+                    <div class="py-4 border-bottom">
+                        <h4 class="text-center">Active Membership</h4>
+
+                        <a class="position-absolute top-0 end-0 p-2 "
+                           asp-page="/Memberships/Membership"
+                           asp-route-id="@Model.ActiveMembership.Id">
+                            <i class="fa-solid fa-square-arrow-up-right"></i>
+                        </a>
+                    </div>
+
+                    <div class="p-4">
+                        <table class="table table-bordered">
+
+                            <tr>
+                                <th>Name</th>
+                                <td>@Model.ActiveMembership.MembershipType.Name</td>
+                            </tr>
+
+                            <tr>
+                                <th>From</th>
+                                <td>@Model.ActiveMembership.From.ToShortDateString()</td>
+                            </tr>
+
+                            <tr>
+                                <th>To</th>
+                                <td>@Model.ActiveMembership.To.ToShortDateString()</td>
+                            </tr>
+                            <tr>
+                                <th>Number of Sessions</th>
+                                <td>@Model.ActiveMembership.SessionCount</td>
+                            </tr>
+
+                            <tr>
+                                <th>Days Left</th>
+                                <td>@Model.ActiveMembership.DaysLeft</td>
+                            </tr>
+
+
+                        </table>
+                        <div class="row">
+                            <div class="offset-10 col-md-2">
+                                <form method="POST" asp-page-handler="AddNewSession">
+                                    <input asp-for="ActiveMembershipId" hidden />
+                                    <input asp-for="Id" hidden />
+                                    <button type="submit" class="btn btn-outline-primary w-100"><i class="fa-solid fa-plus"> </i>  </button>
+                                </form>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    @if (Model.ActiveMembership.MembershipSessions.Count > 0)
+                    {
+                        <div class="px-4 pb-4">
+
+                            <div class="accordion" id="accordionExample">
+                                @foreach (var session in Model.ActiveMembership.MembershipSessions)
+                                {
+                                    <partial name="Shared/_UpdateMembershipSession" model="session" />
+                                }
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            }
+        </div>
     </div>
-</div>
 
 </div>

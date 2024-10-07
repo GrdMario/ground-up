@@ -17,6 +17,10 @@
 
         public int SessionCount { get; set; }
 
+        public int DaysLeft { get; set; }
+
+        public bool IsFrozen { get; set; }
+
         public MembershipTypeViewModel MembershipType { get; set; } = new();
 
         public List<MembershipSessionViewModel> MembershipSessions { get; set; } = new();
