@@ -50,5 +50,18 @@
                 .Select(s => new MembershipSession(this.Id))
                 .ToList();
         }
+
+
+        public void Update(
+            DateTime from,
+            DateTime to,
+            Guid membershipTypeId,
+            DateTime? fronzenDate)
+        {
+            this.From = from;
+            this.To = to;
+            this.MembershipTypeId = membershipTypeId;
+            this.FrozenDate = fronzenDate;
+        }
     }
 }

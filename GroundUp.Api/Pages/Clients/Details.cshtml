@@ -139,6 +139,7 @@
                                     <th>Name</th>
                                     <th>From</th>
                                     <th>To</th>
+                                    <th>Is Frozen</th>
                                     <th></th>
 
                                 </tr>
@@ -146,12 +147,17 @@
                             <tbody>
                                 @foreach (var membership in Model.Memberships)
                                 {
+                                        var isFrozen = membership.FrozenDate != null;
+
                                     <tr>
                                         <partial name="Shared/_ColorColumn" model="membership.MembershipType.Color" />
                                    
                                         <td>@membership.MembershipType.Name</td>
                                         <td>@membership.From.ToShortDateString()</td>
                                         <td>@membership.To.ToShortDateString()</td>
+                                        <td>
+                                            @isFrozen
+                                        </td>
                                         <td class="text-center">
 
                                             <a asp-page="/Memberships/Membership"

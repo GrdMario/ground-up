@@ -37,7 +37,7 @@
                 .Include(s => s.Client)
                 .Include(s => s.MembershipType)
                 .Include(s => s.MembershipSessions)
-                .WhereIf(isActive != null && isActive == true, s => now.Date >= s.From.Date && now.Date <= s.To.Date)
+                .WhereIf(isActive != null && isActive == true, s => now.Date >= s.From.Date && now.Date <= s.To.Date && s.FrozenDate == null)
                 .OrderByDescending(s => s.From.Date)
                 .ToListAsync(cancellationToken);
         }

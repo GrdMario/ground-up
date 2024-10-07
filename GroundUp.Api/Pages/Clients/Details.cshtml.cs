@@ -86,7 +86,7 @@ namespace GroundUp.Api.Pages.Clients
                                 Count = s.MembershipSessions.IndexOf(ms) + 1,
                             })
                             .ToList(),
-                    PaidDate = s.FrozenDate,
+                    FrozenDate = s.FrozenDate,
                     MembershipType = new MembershipTypeViewModel()
                     {
                         Id = s.MembershipType.Id,
@@ -96,7 +96,7 @@ namespace GroundUp.Api.Pages.Clients
                 })
                 .ToList();
 
-            this.ActiveMembership = this.Memberships.Where(s => s.From.Date <= DateTime.UtcNow.Date && s.To.Date >= DateTime.UtcNow.Date).FirstOrDefault();
+            this.ActiveMembership = this.Memberships.Where(s => s.From.Date <= DateTime.UtcNow.Date && s.To.Date >= DateTime.UtcNow.Date && s.FrozenDate == null).FirstOrDefault();
 
             if (this.ActiveMembership != null)
             {

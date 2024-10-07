@@ -13,7 +13,7 @@
 
         public DateTime To { get; set; }
 
-        public DateTime? PaidDate { get; set; }
+        public DateTime? FrozenDate { get; set; }
 
         public int SessionCount { get; set; }
 

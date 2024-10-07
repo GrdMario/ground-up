@@ -77,5 +77,21 @@
 
             return memberships.Select(m => MembershipDto.FromMembership(m)).ToList();
         }
+
+        public async Task UpdateAsync(UpdateMembershipDto dto, CancellationToken cancellationToken)
+        {
+            var membership = await this.uow.MembershipRepository.GetMembershipByIdSafeAsync(dto.Id, cancellationToken);
+
+            membership.Update(
+                from: dto.From,
+                to: dto.To,
+                membershipTypeId: dto.MembershipTypeId,
+                fronzenDate: dto.FrozenDate);
+
+
+            this.uow.MembershipRepository.Update(membership);
+
+            await this.uow.SaveChangesAsync(cancellationToken);
+        }
     }
 }

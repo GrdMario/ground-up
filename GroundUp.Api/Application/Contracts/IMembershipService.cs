@@ -19,5 +19,7 @@
         Task<List<MembershipDto>> GetMembershipForStartDateAsync(DateTime startDate, CancellationToken cancellationToken);
 
         Task CreateAsync(MembershipDto dto, CancellationToken cancellationToken);
+
+        Task UpdateAsync(UpdateMembershipDto dto, CancellationToken cancellationToken);
     }
 }

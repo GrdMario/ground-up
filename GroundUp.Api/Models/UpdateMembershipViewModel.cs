@@ -3,7 +3,7 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    public class CreateMembershipViewModel
+    public class UpdateMembershipViewModel
     {
         public Guid Id { get; set; }
 
@@ -12,8 +12,6 @@
         [Required]
         [DataType(DataType.Date)]
         public DateTime From { get; set; }
-
-        public DateTime To { get; set; }
 
         public DateTime? FrozenDate { get; set; }
 

@@ -47,7 +47,7 @@ namespace GroundUp.Api.Pages.Memberships
                                     Count = membership.MembershipSessions.IndexOf(ms) + 1,
                                 })
                                 .ToList(),
-                    PaidDate = membership.FrozenDate,
+                    FrozenDate = membership.FrozenDate,
                     MembershipType = new MembershipTypeViewModel()
                     {
                         Id = membership.MembershipType.Id,

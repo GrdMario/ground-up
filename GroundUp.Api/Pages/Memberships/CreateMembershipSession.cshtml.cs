@@ -62,6 +62,7 @@ namespace GroundUp.Api.Pages.Memberships
 
             this.Members =
                 activeMembers
+                .Where(s => s.FrozenDate == null)
                 .Where(s => s.MembershipSessions.Any(s => s.Start == null && s.End == null))
                 .GroupBy(gb => gb.ClientId)
                 .SelectMany(s => s)
