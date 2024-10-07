@@ -9,6 +9,8 @@ namespace GroundUp.Api.Pages.Memberships
     using Microsoft.AspNetCore.Mvc.Rendering;
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Globalization;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
@@ -16,11 +18,7 @@ namespace GroundUp.Api.Pages.Memberships
     public class CreateMembershipModel : PageModel
     {
         [BindProperty]
-        public CreateMembershipViewModel CreateMembershipViewModel { get; set; } = new CreateMembershipViewModel()
-        {
-            From = DateTime.UtcNow,
-            To = DateTime.UtcNow,
-        };
+        public CreateMembershipViewModel CreateMembershipViewModel { get; set; } = new CreateMembershipViewModel();
 
         public List<SelectListItem> MembershipTypes { get; set; } = [];
 
@@ -54,20 +52,24 @@ namespace GroundUp.Api.Pages.Memberships
             this.ClientName = name;
             this.ClientId = id;
             this.CreateMembershipViewModel.ClientId = this.ClientId;
+
+            this.CreateMembershipViewModel.From = DateTime.UtcNow;
         }
 
         public async Task<IActionResult> OnPostCreateAsync(CancellationToken cancellationToken)
         {
+            this.CreateMembershipViewModel.To = this.CreateMembershipViewModel.From.AddDays(32);
+
             if (this.CreateMembershipViewModel.From > this.CreateMembershipViewModel.To)
             {
                 this.ModelState.AddModelError("CreateMembershipViewModel.From", "Membership needs to start before it ends. Check your 'Start Date' and 'End Date' fields.");
             }
 
-            var existingMembership = await this.membershipService.GetMembershipByDateAsync(this.CreateMembershipViewModel.ClientId, this.CreateMembershipViewModel.From, cancellationToken);
+            var existingMembership = await this.membershipService.GetMembershipByDateAsync(this.CreateMembershipViewModel.ClientId, this.CreateMembershipViewModel.From, this.CreateMembershipViewModel.To, cancellationToken);
 
             if (existingMembership != null)
             {
-                this.ModelState.AddModelError("CreateMembershipViewModel.From", "This client already has a membership that overlaps with selected 'Start Date'.");
+                this.ModelState.AddModelError("CreateMembershipViewModel.From", $"This client already has a membership in {existingMembership.From.ToShortDateString()} - {existingMembership.To.ToShortDateString()}. There is an overlap with the begining and end with this membership.");
             }
 
             if (!this.ModelState.IsValid)
@@ -91,7 +93,7 @@ namespace GroundUp.Api.Pages.Memberships
             {
                 ClientId = this.CreateMembershipViewModel.ClientId,
                 From = this.CreateMembershipViewModel.From,
-                To = this.CreateMembershipViewModel.To,
+                To = this.CreateMembershipViewModel.From.AddDays(32),
                 SessionCount = this.CreateMembershipViewModel.SessionCount,
                 MembershipTypeId = this.CreateMembershipViewModel.MembershipTypeId
             };

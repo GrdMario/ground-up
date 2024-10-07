@@ -14,7 +14,7 @@
 
         Task<MembershipDto?> GetMembershipByIdAsync(Guid id, CancellationToken cancellationToken);
 
-        Task<MembershipDto?> GetMembershipByDateAsync(Guid clientId, DateTime startDate, CancellationToken cancellationToken);
+        Task<MembershipDto?> GetMembershipByDateAsync(Guid clientId, DateTime startDate, DateTime endDate, CancellationToken cancellationToken);
 
         Task<List<MembershipDto>> GetMembershipForStartDateAsync(DateTime startDate, CancellationToken cancellationToken);
 

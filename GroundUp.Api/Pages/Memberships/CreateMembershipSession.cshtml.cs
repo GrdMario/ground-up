@@ -34,6 +34,8 @@ namespace GroundUp.Api.Pages.Memberships
         [BindProperty]
         public DateTime From { get; set; }
 
+        public List<MembershipDto> MembersWithMembership { get; set; } = new List<MembershipDto>();
+
         public List<SelectListItem> Members { get; set; } = [];
 
         private readonly IMembershipService membershipService;
@@ -60,6 +62,7 @@ namespace GroundUp.Api.Pages.Memberships
 
             this.Members =
                 activeMembers
+                .Where(s => s.MembershipSessions.Any(s => s.Start == null && s.End == null))
                 .GroupBy(gb => gb.ClientId)
                 .SelectMany(s => s)
                 .Select(s => new SelectListItem()
@@ -68,12 +71,30 @@ namespace GroundUp.Api.Pages.Memberships
                     Text = $"{s.Client.FirstName} {s.Client.LastName}"
                 })
                 .ToList();
+
+            this.MembersWithMembership =
+                activeMembers
+                .Where(s => s.MembershipSessions.Any(ms => ms.Start == null && ms.End == null))
+                .ToList();
+
             this.Create.Start = from;
             this.Create.End = to;
         }
 
         public async Task<IActionResult> OnPostUpdateAsync(CancellationToken cancellationToken)
         {
+            var activeMembers = await this.membershipService.GetMembershipForStartDateAsync(this.From, cancellationToken);
+
+            var existingSession = activeMembers
+                .Where(s => s.Id == this.Create.MembershipId)
+                .Select(s => s.MembershipSessions.Where(s => s.Start == null && s.End == null).FirstOrDefault())
+                .FirstOrDefault();
+
+            if (existingSession == null)
+            {
+                this.ModelState.AddModelError("Create.MembershipId", "This client used all of his sessions.");
+            }
+
             if (!ModelState.IsValid)
             {
                 this.Year = this.Year;
@@ -83,8 +104,6 @@ namespace GroundUp.Api.Pages.Memberships
 
                 var from = new DateTime(this.Year, this.Month, this.Day, this.Hour, 0, 0);
                 var to = new DateTime(this.Year, this.Month, this.Day, this.Hour, 59, 0);
-
-                var activeMembers = await this.membershipService.GetMembershipForStartDateAsync(from, cancellationToken);
 
                 this.Members =
                     activeMembers
@@ -97,22 +116,27 @@ namespace GroundUp.Api.Pages.Memberships
                     })
                     .ToList();
 
+                this.MembersWithMembership =
+                    activeMembers
+                    .Where(s => s.MembershipSessions.Any(ms => ms.Start == null && ms.End == null))
+                    .ToList();
+
                 this.From = from;
 
                 return Page();
             }
 
-            var dto = new CreateMembershipSessionDto()
+            var model = new UpdateMembershipSessionDto()
             {
-                MembershipId = this.Create.MembershipId,
+                Id = existingSession!.Id,
+                MembershipId = existingSession!.MembershipId,
                 Start = this.Create.Start,
                 End = this.Create.End,
-                Comment = this.Create.Comment
+                Comment = this.Create.Comment,
+                IsCancelled = existingSession!.IsCancelled
             };
 
-            await this.membershipSessionService.CreateAsync(dto, cancellationToken);
-            // Call a service to save the session (for example)
-            //await this.membershipService.SaveMembershipSessionAsync(dto, cancellationToken);
+            await this.membershipSessionService.UpdateAsync(model, cancellationToken);
 
             return RedirectToPage("/Index");
         }

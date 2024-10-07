@@ -18,6 +18,8 @@
 
             builder.Property(p => p.SessionCount).IsRequired();
 
+            builder.Property(p => p.FrozenDate);
+
             builder.HasOne(p => p.Client).WithMany(p => p.Memberships).HasForeignKey(fk => fk.ClientId);
 
             builder.HasOne(p => p.MembershipType).WithMany().HasForeignKey(fk => fk.MembershipTypeId);

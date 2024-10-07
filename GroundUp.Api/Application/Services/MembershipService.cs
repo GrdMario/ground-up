@@ -40,9 +40,9 @@
             return memberships.Select(m => MembershipDto.FromMembership(m)).ToList();
         }
 
-        public async Task<MembershipDto?> GetMembershipByDateAsync(Guid clientId, DateTime startDate, CancellationToken cancellationToken)
+        public async Task<MembershipDto?> GetMembershipByDateAsync(Guid clientId, DateTime startDate, DateTime endDate, CancellationToken cancellationToken)
         {
-            var membership = await this.uow.MembershipRepository.GetMembershipByDateAsync(clientId, startDate, cancellationToken);
+            var membership = await this.uow.MembershipRepository.GetMembershipByDateAsync(clientId, startDate, endDate, cancellationToken);
 
             if (membership == null)
             {

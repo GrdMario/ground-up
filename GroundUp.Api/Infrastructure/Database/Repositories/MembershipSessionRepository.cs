@@ -45,8 +45,8 @@
                 .Where(
                     s => s.Start != null
                         && s.End != null
-                        && s.Start >= startDate
-                        && s.End <= endDate)
+                        && s.Start >= startDate.Date
+                        && s.End <= endDate.Date)
                 .Include(s => s.Membership)
                     .ThenInclude(s => s.MembershipType)
                 .Include(s => s.Membership)

@@ -15,7 +15,7 @@
 
         public DateTime To { get; set; }
 
-        public DateTime? PaidDate { get; set; }
+        public DateTime? FrozenDate { get; set; }
 
         public int SessionCount { get; set; }
 
@@ -36,7 +36,7 @@
                 MembershipTypeId = membership.MembershipTypeId,
                 From = membership.From,
                 To = membership.To,
-                PaidDate = membership.PaidDate,
+                FrozenDate = membership.FrozenDate,
                 MembershipType = MembershipTypeDto.FromMembershipType(membership.MembershipType),
                 MembershipSessions = membership.MembershipSessions.Select(session => MembershipSessionDto.FromMembershipSession(session)).ToList(),
                 SessionCount = membership.SessionCount,

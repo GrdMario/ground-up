@@ -1,5 +1,6 @@
 ﻿namespace GroundUp.Api.Models
 {
+    using Microsoft.AspNetCore.Mvc;
     using System;
     using System.ComponentModel.DataAnnotations;
 
@@ -10,9 +11,9 @@
         public Guid ClientId { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
         public DateTime From { get; set; }
 
-        [Required]
         public DateTime To { get; set; }
 
         public DateTime? PaidDate { get; set; }

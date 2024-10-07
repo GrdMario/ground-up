@@ -42,11 +42,15 @@
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<Membership?> GetMembershipByDateAsync(Guid clientId, DateTime startDate, CancellationToken cancellationToken)
+        public async Task<Membership?> GetMembershipByDateAsync(
+            Guid clientId,
+            DateTime startDate,
+            DateTime endDate,
+            CancellationToken cancellationToken)
         {
             return await this.memberships
                 .Where(m => m.ClientId == clientId)
-                .Where(m => startDate >= m.From && startDate <= m.To)
+                .Where(m => (startDate >= m.From && startDate <= m.To) || (endDate >= m.From && endDate <= m.To))
                 .Include(s => s.Client)
                 .Include(m => m.MembershipType)
                 .Include(m => m.MembershipSessions)

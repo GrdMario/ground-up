@@ -16,7 +16,7 @@
 
         public DateTime To { get; protected set; }
 
-        public DateTime? PaidDate { get; protected set; }
+        public DateTime? FrozenDate { get; protected set; }
 
         public int SessionCount { get; protected set; }
 
@@ -49,11 +49,6 @@
                     this.SessionCount)
                 .Select(s => new MembershipSession(this.Id))
                 .ToList();
-        }
-
-        public void Pay(DateTime paidDate)
-        {
-            this.PaidDate = paidDate;
         }
     }
 }

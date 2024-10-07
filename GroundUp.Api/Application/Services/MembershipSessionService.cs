@@ -35,7 +35,6 @@
             var membershipSession = await this.uow.MembershipSessionRepository.GetByIdSafeAsync(dto.Id, cancellationToken);
 
             membershipSession.Update(
-                dto.IsCompleted,
                 dto.IsCancelled,
                 dto.Start,
                 dto.End,

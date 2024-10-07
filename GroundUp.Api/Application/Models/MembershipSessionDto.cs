@@ -11,8 +11,6 @@
 
         public bool IsCancelled { get; set; }
 
-        public bool IsCompleted { get; set; }
-
         public string? Comment { get; set; }
 
         public DateTime? Start { get; set; }
@@ -27,7 +25,6 @@
 
             membershipSessionDto.Id = membershipSession.Id;
             membershipSessionDto.MembershipId = membershipSession.MembershipId;
-            membershipSessionDto.IsCompleted = membershipSession.IsCompleted;
             membershipSessionDto.IsCancelled = membershipSession.IsCancelled;
             membershipSessionDto.Start = membershipSession.Start;
             membershipSessionDto.End = membershipSession.End;

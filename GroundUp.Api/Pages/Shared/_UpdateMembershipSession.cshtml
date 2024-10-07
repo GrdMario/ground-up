@@ -1,7 +1,7 @@
 ﻿@model GroundUp.Api.Models.MembershipSessionViewModel
 
 
-<form method="post" class="accordion-item" asp-page-handler="UpdateMembershipSession" id="parent-@Model.Id">
+<form method="post" class="accordion-item" id="parent-@Model.Id">
     <h2 class="accordion-header">
         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#child-@Model.Id" aria-expanded="true" aria-controls="child">
             <div>
@@ -20,54 +20,49 @@
             <input asp-for="ClientId" id="clientId-@Model.Id" hidden />
             <input asp-for="SessionId" id="testid-@Model.SessionId" hidden />
             <input asp-for="MembershipId" id="testid-@Model.MembershipId" hidden />
-                <div class="row  mb-4">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="start-@Model.Id" class="my-2">Start</label>
-                            <input asp-for="Start" id="start-@Model.Id" class="form-control" type="datetime-local" />
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="end-@Model.Id" class="my-2">End</label>
-                            <input asp-for="End" id="end-@Model.Id" class="form-control" type="datetime-local" />
-                        </div>
+            <div class="row  mb-4">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="start-@Model.Id" class="my-2">Start</label>
+                        <input asp-for="Start" id="start-@Model.Id" class="form-control" type="datetime-local" />
                     </div>
                 </div>
 
-                <div class="row mb-4">
-                    <div class="col-md-6">
-                        <div class="form-group form-check">
-                            <label class="form-check-label" for="isCompleted-@Model.Id">Is completed</label>
-                            <input asp-for="IsCompleted" id="isCompleted-@Model.Id" class="form-check-input" type="checkbox" />
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-group form-check">
-                            <label class="form-check-label" for="isCancelled-@Model.Id">Is cancelled?</label>
-                            <input asp-for="IsCancelled" id="isCancelled-@Model.Id" class="form-check-input" type="checkbox" />
-                        </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="end-@Model.Id" class="my-2">End</label>
+                        <input asp-for="End" id="end-@Model.Id" class="form-control" type="datetime-local" />
                     </div>
                 </div>
-                <div class="row mb-4">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="comments-@Model.Id" class="mb-2">Comment</label>
-                            <textarea asp-for="Comment" id="comment-@Model.Id" class="form-control" rows="6"></textarea>
-                        </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="form-group form-check">
+                        <label class="form-check-label" for="isCancelled-@Model.Id">Is cancelled?</label>
+                        <input asp-for="IsCancelled" id="isCancelled-@Model.Id" class="form-check-input" type="checkbox" />
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-outline-primary" style="width: 100%"><i class="fa-solid fa-floppy-disk"></i></button>
-                        </div>
-
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="comments-@Model.Id" class="mb-2">Comment</label>
+                        <textarea asp-for="Comment" id="comment-@Model.Id" class="form-control" rows="6"></textarea>
                     </div>
                 </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">
+                    <button class="btn btn-outline-danger w-100"  asp-page-handler="DeleteMembershipSession"><i class="fa-solid fa-trash"></i></button>
+
+                </div>
+                <div class="col-md-2 offset-8">
+                    <button class="btn btn-outline-primary w-100" asp-page-handler="UpdateMembershipSession"><i class="fa-solid fa-floppy-disk"></i></button>
+
+                </div>
+            </div>
 
         </div>
     </div>

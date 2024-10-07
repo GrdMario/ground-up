@@ -27,18 +27,17 @@
 
                 <div class="py-4 border-bottom">
                     <h4 class="text-center">
-                        No members with active memberships found for:
-                        <br />
-                        <strong>@Model.From.ToShortDateString()</strong>
+                        <strong>Add membership session</strong>
                     </h4>
                 </div>
 
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div asp-validation-for="ModelOnly" class="text-danger"></div>
 
                 <input asp-for="Year" type="hidden" />
                 <input asp-for="Month" type="hidden" />
                 <input asp-for="Day" type="hidden" />
                 <input asp-for="Hour" type="hidden" />
+                <input asp-for="From" type="hidden" />
                 
                 <div class="p-4 border-bottom">
                     <div class="row mb-2 mt-2">

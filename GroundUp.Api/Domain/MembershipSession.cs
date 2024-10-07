@@ -12,8 +12,6 @@
 
         public string? Comment { get; protected set; }
 
-        public bool IsCompleted { get; protected set; }
-
         public bool IsCancelled { get; protected set; }
 
         public DateTime? Start { get; protected set; }
@@ -32,7 +30,6 @@
         {
             this.Id = Guid.NewGuid();
             this.MembershipId = membershipId;
-            this.IsCompleted = false;
             this.IsCancelled = false;
             this.Start = start;
             this.End = end;
@@ -41,13 +38,11 @@
         }
 
         public void Update(
-            bool isCompleted,
             bool isCancelled,
             DateTime? start,
             DateTime? end,
             string? comment)
         {
-            this.IsCompleted = isCompleted;
             this.IsCancelled = isCancelled;
             this.Start = start;
             this.End = end;

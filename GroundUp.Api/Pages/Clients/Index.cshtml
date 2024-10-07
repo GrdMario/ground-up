@@ -43,21 +43,19 @@
                 <table class="table table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th></th>
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Date of Birth</th>
                             <th>Email</th>
                             <th>Phone Number</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var client in Model.Clients)
                         {
                             <tr>
-                                <td class="text-center">
-                                    <a asp-page="./Details" asp-route-id="@client.Id"> <i class="fa-solid fa-square-arrow-up-right"></i></a>
-                                </td>
+                               
                                 <td>
                                     @client.FirstName
                                 </td>
@@ -72,6 +70,9 @@
                                 </td>
                                 <td>
                                     @client.PhoneNumber
+                                </td>
+                                <td class="text-center">
+                                    <a asp-page="./Details" asp-route-id="@client.Id"> <i class="fa-solid fa-square-arrow-up-right"></i></a>
                                 </td>
                             </tr>
                         }

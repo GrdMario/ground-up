@@ -79,7 +79,6 @@ namespace GroundUp.Api.Pages.Clients
                                 Comment = ms.Comment,
                                 End = ms.End,
                                 IsCancelled = ms.IsCancelled,
-                                IsCompleted = ms.IsCompleted,
                                 MembershipId = ms.MembershipId,
                                 ClientId = s.ClientId,
                                 Start = ms.Start,
@@ -87,7 +86,7 @@ namespace GroundUp.Api.Pages.Clients
                                 Count = s.MembershipSessions.IndexOf(ms) + 1,
                             })
                             .ToList(),
-                    PaidDate = s.PaidDate,
+                    PaidDate = s.FrozenDate,
                     MembershipType = new MembershipTypeViewModel()
                     {
                         Id = s.MembershipType.Id,
@@ -138,13 +137,27 @@ namespace GroundUp.Api.Pages.Clients
                 Start = dto.Start,
                 End = dto.End,
                 IsCancelled = dto.IsCancelled,
-                IsCompleted = dto.IsCompleted,
                 Comment = dto.Comment
             };
 
             await this.membershipSessionService.UpdateAsync(update, cancellationToken);
 
             return this.RedirectToPage("Details", new { id = dto.ClientId });
+        }
+
+        public async Task<IActionResult> OnPostDeleteMembershipSessionAsync(MembershipSessionViewModel dto, CancellationToken cancellationToken)
+        {
+            var update = new UpdateMembershipSessionDto()
+            {
+                Id = dto.SessionId,
+                MembershipId = dto.MembershipId,
+                Start = null,
+                End = null,
+            };
+
+            await this.membershipSessionService.UpdateAsync(update, cancellationToken);
+
+            return this.RedirectToPage("Details", new { id = this.Id });
         }
 
         public async Task<IActionResult> OnPostAddNewSessionAsync(CancellationToken cancellationToken)
@@ -154,7 +167,7 @@ namespace GroundUp.Api.Pages.Clients
                 MembershipId = this.ActiveMembershipId!.Value,
                 Start = null,
                 End = null,
-                Comment = null
+                Comment = null,
             };
 
             await this.membershipSessionService.CreateAsync(dto, cancellationToken);

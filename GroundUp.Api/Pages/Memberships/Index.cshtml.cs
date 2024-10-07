@@ -40,7 +40,6 @@ namespace GroundUp.Api.Pages.Memberships
                                     Comment = ms.Comment,
                                     End = ms.End,
                                     IsCancelled = ms.IsCancelled,
-                                    IsCompleted = ms.IsCompleted,
                                     MembershipId = ms.MembershipId,
                                     ClientId = membership.ClientId,
                                     Start = ms.Start,
@@ -48,7 +47,7 @@ namespace GroundUp.Api.Pages.Memberships
                                     Count = membership.MembershipSessions.IndexOf(ms) + 1,
                                 })
                                 .ToList(),
-                    PaidDate = membership.PaidDate,
+                    PaidDate = membership.FrozenDate,
                     MembershipType = new MembershipTypeViewModel()
                     {
                         Id = membership.MembershipType.Id,

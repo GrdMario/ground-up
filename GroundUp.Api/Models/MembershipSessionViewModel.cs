@@ -16,9 +16,6 @@
         [Required]
         public bool IsCancelled { get; set; }
 
-        [Required]
-        public bool IsCompleted { get; set; }
-
         public string? Comment { get; set; }
 
         public DateTime? Start { get; set; }

@@ -55,7 +55,6 @@ namespace GroundUp.Api.Pages.Memberships
                                 Comment = ms.Comment,
                                 End = ms.End,
                                 IsCancelled = ms.IsCancelled,
-                                IsCompleted = ms.IsCompleted,
                                 MembershipId = ms.MembershipId,
                                 ClientId = membership.ClientId,
                                 Start = ms.Start,
@@ -63,7 +62,7 @@ namespace GroundUp.Api.Pages.Memberships
                                 Count = membership.MembershipSessions.IndexOf(ms) + 1,
                             })
                             .ToList(),
-                PaidDate = membership.PaidDate,
+                PaidDate = membership.FrozenDate,
                 MembershipType = new MembershipTypeViewModel()
                 {
                     Id = membership.MembershipType.Id,
@@ -81,7 +80,23 @@ namespace GroundUp.Api.Pages.Memberships
                 Start = dto.Start,
                 End = dto.End,
                 IsCancelled = dto.IsCancelled,
-                IsCompleted = dto.IsCompleted,
+                Comment = dto.Comment
+            };
+
+            await this.membershipSessionService.UpdateAsync(update, cancellationToken);
+
+            return this.RedirectToPage("Membership", new { id = this.MembershipId });
+        }
+
+        public async Task<IActionResult> OnPostDeleteMembershipSessionAsync(MembershipSessionViewModel dto, CancellationToken cancellationToken)
+        {
+            var update = new UpdateMembershipSessionDto()
+            {
+                Id = dto.SessionId,
+                MembershipId = this.MembershipId,
+                Start = null,
+                End = null,
+                IsCancelled = dto.IsCancelled,
                 Comment = dto.Comment
             };
 

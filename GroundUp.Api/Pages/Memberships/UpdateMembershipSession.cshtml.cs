@@ -44,7 +44,6 @@ namespace GroundUp.Api.Pages.Memberships
             {
                 Id = membershipSession.Id,
                 MembershipId = membershipSession.Id,
-                IsCompleted = membershipSession.IsCompleted,
                 IsCancelled = membershipSession.IsCancelled,
                 Start = membershipSession.Start,
                 End = membershipSession.End,
@@ -62,7 +61,23 @@ namespace GroundUp.Api.Pages.Memberships
                 End = this.Update.End,
                 Comment = this.Update.Comment,
                 IsCancelled = this.Update.IsCancelled,
-                IsCompleted = this.Update.IsCompleted,
+            };
+
+            await this.membershipSessionService.UpdateAsync(model, cancellationToken);
+
+            return this.RedirectToPage("/Index");
+        }
+
+        public async Task<IActionResult> OnPostDeleteAsync(CancellationToken cancellationToken)
+        {
+            var model = new UpdateMembershipSessionDto()
+            {
+                Id = this.Update.Id,
+                MembershipId = this.Update.MembershipId,
+                Start = null,
+                End = null,
+                Comment = this.Update.Comment,
+                IsCancelled = this.Update.IsCancelled,
             };
 
             await this.membershipSessionService.UpdateAsync(model, cancellationToken);

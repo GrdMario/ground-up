@@ -10,8 +10,6 @@
 
         public bool IsCancelled { get; set; }
 
-        public bool IsCompleted { get; set; }
-
         public string? Comment { get; set; }
 
         public DateTime? Start { get; set; }

@@ -70,10 +70,10 @@ namespace GroundUp.Api.Infrastructure.Database.Migrations
                     b.Property<DateTime>("From")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("MembershipTypeId")
+                    b.Property<DateTime?>("FrozenDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("PaidDate")
+                    b.Property<Guid>("MembershipTypeId")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("SessionCount")
@@ -107,9 +107,6 @@ namespace GroundUp.Api.Infrastructure.Database.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsCancelled")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("IsCompleted")
                         .HasColumnType("INTEGER");
 
                     b.Property<Guid>("MembershipId")

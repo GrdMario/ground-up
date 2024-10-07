@@ -9,7 +9,6 @@
         public void Configure(EntityTypeBuilder<MembershipSession> builder)
         {
             builder.HasKey(k => k.Id);
-            builder.Property(p => p.IsCompleted).IsRequired();
             builder.Property(p =>p.IsCancelled).IsRequired();
             builder.Property(p => p.CreatedAt).IsRequired();
             builder.Property(p => p.Comment);

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace GroundUp.Api.Infrastructure.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -51,7 +51,7 @@ namespace GroundUp.Api.Infrastructure.Database.Migrations
                     ClientId = table.Column<Guid>(type: "TEXT", nullable: false),
                     From = table.Column<DateTime>(type: "TEXT", nullable: false),
                     To = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    PaidDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    FrozenDate = table.Column<DateTime>(type: "TEXT", nullable: true),
                     SessionCount = table.Column<int>(type: "INTEGER", nullable: false),
                     MembershipTypeId = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
@@ -79,7 +79,6 @@ namespace GroundUp.Api.Infrastructure.Database.Migrations
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     MembershipId = table.Column<Guid>(type: "TEXT", nullable: false),
                     Comment = table.Column<string>(type: "TEXT", nullable: true),
-                    IsCompleted = table.Column<bool>(type: "INTEGER", nullable: false),
                     IsCancelled = table.Column<bool>(type: "INTEGER", nullable: false),
                     Start = table.Column<DateTime>(type: "TEXT", nullable: true),
                     End = table.Column<DateTime>(type: "TEXT", nullable: true),
