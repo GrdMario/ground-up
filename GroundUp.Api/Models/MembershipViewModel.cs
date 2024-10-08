@@ -17,6 +17,8 @@
 
         public int SessionCount { get; set; }
 
+        public int SessionsLeft { get; set; }
+
         public int DaysLeft { get; set; }
 
         public bool IsFrozen { get; set; }

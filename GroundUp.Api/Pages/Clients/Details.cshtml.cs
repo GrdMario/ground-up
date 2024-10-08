@@ -86,6 +86,7 @@ namespace GroundUp.Api.Pages.Clients
                                 Count = s.MembershipSessions.IndexOf(ms) + 1,
                             })
                             .ToList(),
+                    SessionsLeft = s.MembershipSessions.Where(ms => ms.Start == null && ms.End == null).Count(),
                     FrozenDate = s.FrozenDate,
                     IsFrozen = s.FrozenDate != null,
                     DaysLeft = (s.To - DateTime.Now).Days > 0 ? Convert.ToInt32((s.To-DateTime.Now).Days) : 0,
