@@ -34,7 +34,7 @@ namespace GroundUp.Api.Pages.Memberships
         [BindProperty]
         public DateTime From { get; set; }
 
-        public List<MembershipDto> MembersWithMembership { get; set; } = new List<MembershipDto>();
+        public List<MembershipDto> MembersWithMembership { get; set; } = [];
 
         public List<SelectListItem> Members { get; set; } = [];
 
@@ -96,7 +96,7 @@ namespace GroundUp.Api.Pages.Memberships
                 this.ModelState.AddModelError("Create.MembershipId", "This client used all of his sessions.");
             }
 
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
                 this.Year = this.Year;
                 this.Month = this.Month;
@@ -124,7 +124,7 @@ namespace GroundUp.Api.Pages.Memberships
 
                 this.From = from;
 
-                return Page();
+                return this.Page();
             }
 
             var model = new UpdateMembershipSessionDto()
@@ -139,7 +139,7 @@ namespace GroundUp.Api.Pages.Memberships
 
             await this.membershipSessionService.UpdateAsync(model, cancellationToken);
 
-            return RedirectToPage("/Index", new { year = this.Year, month = this.Month, day = this.Day});
+            return this.RedirectToPage("/Index", new { year = this.Year, month = this.Month, day = this.Day});
         }
     }
 }

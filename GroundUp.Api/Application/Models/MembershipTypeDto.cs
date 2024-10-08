@@ -13,11 +13,12 @@
 
         public static MembershipTypeDto FromMembershipType(MembershipType membershipType)
         {
-            var membershipTypeDto = new MembershipTypeDto();
-
-            membershipTypeDto.Id = membershipType.Id;
-            membershipTypeDto.Name = membershipType.Name;
-            membershipTypeDto.Color = membershipType.Color;
+            var membershipTypeDto = new MembershipTypeDto
+            {
+                Id = membershipType.Id,
+                Name = membershipType.Name,
+                Color = membershipType.Color
+            };
 
             return membershipTypeDto;
         }

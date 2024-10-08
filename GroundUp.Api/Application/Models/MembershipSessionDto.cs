@@ -21,15 +21,16 @@
 
         public static MembershipSessionDto FromMembershipSession(MembershipSession membershipSession)
         {
-            var membershipSessionDto = new MembershipSessionDto();
-
-            membershipSessionDto.Id = membershipSession.Id;
-            membershipSessionDto.MembershipId = membershipSession.MembershipId;
-            membershipSessionDto.IsCancelled = membershipSession.IsCancelled;
-            membershipSessionDto.Start = membershipSession.Start;
-            membershipSessionDto.End = membershipSession.End;
-            membershipSessionDto.Comment = membershipSession.Comment;
-            membershipSessionDto.CreatedAt = membershipSession.CreatedAt;
+            var membershipSessionDto = new MembershipSessionDto
+            {
+                Id = membershipSession.Id,
+                MembershipId = membershipSession.MembershipId,
+                IsCancelled = membershipSession.IsCancelled,
+                Start = membershipSession.Start,
+                End = membershipSession.End,
+                Comment = membershipSession.Comment,
+                CreatedAt = membershipSession.CreatedAt
+            };
 
             return membershipSessionDto;
         }

@@ -12,7 +12,7 @@ namespace GroundUp.Api.Pages.Memberships
     {
         private readonly IMembershipService membershipService;
 
-        public List<MembershipViewModel> Memberships { get; set; } = new();
+        public List<MembershipViewModel> Memberships { get; set; } = [];
 
         public IndexModel(IMembershipService membershipService)
         {

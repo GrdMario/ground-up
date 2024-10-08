@@ -1,6 +1,5 @@
 ﻿namespace GroundUp.Api.Models
 {
-    using GroundUp.Api.Attributes;
     using System;
     using System.ComponentModel.DataAnnotations;
 
@@ -8,7 +7,7 @@
     {
         public Guid Id { get; set; }
 
-        [RequiredNotEmpty]
+        [Required(AllowEmptyStrings = false)]
         public string FirstName { get; set; } = default!;
 
         [Required(AllowEmptyStrings = false)]

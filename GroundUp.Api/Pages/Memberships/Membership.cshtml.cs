@@ -63,11 +63,6 @@ namespace GroundUp.Api.Pages.Memberships
 
             var types = await this.membershipTypeService.GetAllAsync(cancellationToken);
 
-            if (membership == null)
-            {
-                return;
-            }
-
             this.MembershipTypes = types
                 .Select(mt => new SelectListItem()
                 {

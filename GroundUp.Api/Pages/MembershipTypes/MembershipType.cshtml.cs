@@ -35,7 +35,7 @@ namespace GroundUp.Api.Pages.MembershipTypes
 
         public async Task<IActionResult> OnPostUpdateAsync(CancellationToken cancellationToken)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
                 return this.Page();
             }

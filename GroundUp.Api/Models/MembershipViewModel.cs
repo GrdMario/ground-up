@@ -25,7 +25,7 @@
 
         public MembershipTypeViewModel MembershipType { get; set; } = new();
 
-        public List<MembershipSessionViewModel> MembershipSessions { get; set; } = new();
+        public List<MembershipSessionViewModel> MembershipSessions { get; set; } = [];
 
         public MembershipClientViewModel MembershipClient { get; set; } = new();
     }

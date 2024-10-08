@@ -19,9 +19,9 @@ namespace WebApplication1.Pages
         [BindProperty]
         public DateTime EndDate { get; set; }
 
-        public List<CalendarItemViewModel> Items { get; set; } = new();
+        public List<CalendarItemViewModel> Items { get; set; } = [];
 
-        public List<DateTime> Dates { get; set; } = new();
+        public List<DateTime> Dates { get; set; } = [];
 
         private readonly ICalendarService calendarService;
 
