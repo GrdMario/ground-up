@@ -51,7 +51,6 @@
                 .ToList();
         }
 
-
         public void Update(
             DateTime from,
             DateTime to,

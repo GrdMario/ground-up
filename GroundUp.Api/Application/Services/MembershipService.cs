@@ -88,7 +88,6 @@
                 membershipTypeId: dto.MembershipTypeId,
                 fronzenDate: dto.FrozenDate);
 
-
             this.uow.MembershipRepository.Update(membership);
 
             await this.uow.SaveChangesAsync(cancellationToken);

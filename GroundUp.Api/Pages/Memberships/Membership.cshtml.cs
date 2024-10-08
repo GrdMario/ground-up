@@ -32,7 +32,7 @@ namespace GroundUp.Api.Pages.Memberships
         public Guid MembershipId { get; set; }
 
         [BindProperty]
-        public string ClientName { get; set; }
+        public string ClientName { get; set; } = default!;
 
         public MembershipModel(
             IMembershipService membershipService,
@@ -51,6 +51,11 @@ namespace GroundUp.Api.Pages.Memberships
             this.MembershipId = id;
 
             var membership = await this.membershipService.GetMembershipByIdAsync(id, cancellationToken);
+
+            if (membership == null)
+            {
+                return;
+            }
 
             var client = await this.clientService.GetByIdAsync(membership.ClientId, cancellationToken);
 

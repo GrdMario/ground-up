@@ -82,7 +82,6 @@ namespace GroundUp.Api.Pages.Memberships
 
             await this.membershipSessionService.UpdateAsync(model, cancellationToken);
             return this.RedirectToPage("/Index", new { year = this.Update.Start!.Value.Year, month = this.Update.Start!.Value.Month, day = this.Update.Start!.Value.Day });
-            return this.RedirectToPage("/Index");
         }
     }
 }
