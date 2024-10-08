@@ -1,14 +1,29 @@
 ﻿@model GroundUp.Api.Models.MembershipSessionViewModel
 
 
-<form method="post" class="accordion-item" id="parent-@Model.Id">
+<form method="post" class="accordion-item " id="parent-@Model.Id">
     <h2 class="accordion-header">
         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#child-@Model.Id" aria-expanded="true" aria-controls="child">
             <div>
-                <i class="fa-solid fa-hashtag"></i>
+                @if (Model.Start == null && Model.End == null)
+                {
+                    <i class="fa-solid fa-dumbbell" style="color: var(--bs-primary)" data-toggle="tooltip" data-placement="top" title="Not used"></i>
+                }
+                else
+                {
+                    <i class="fa-solid fa-circle-check" style="color: var(--bs-success)" data-toggle="tooltip" data-placement="top" title="Completed!"></i>
+                }
+
                 <span class="px-2">
                     <strong>@Model.Count</strong>
                 </span>
+
+                @if (Model.IsCancelled)
+                {
+                    <i class="fa-solid fa-circle-exclamation" style="color: var(--bs-danger)" data-toggle="tooltip" data-placement="top" title="Cancelled!"></i>
+                }
+
+                
             </div>
 
         </button>

@@ -153,7 +153,7 @@
                                             <partial name="Shared/_ColorColumn" model="membership.MembershipType.Color" />
 
                                             <td class="text-center">
-                                                @if(membership.IsFrozen)
+                                                @if (membership.IsFrozen)
                                                 {
                                                     <i class=" fa-solid fa-check"></i>
                                                 }
@@ -161,7 +161,7 @@
                                             <td>@membership.MembershipType.Name</td>
                                             <td>@membership.From.ToShortDateString()</td>
                                             <td>@membership.To.ToShortDateString()</td>
-                                          
+
                                             <td>@membership.DaysLeft</td>
                                             <td class="text-center">
 

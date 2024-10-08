@@ -34,7 +34,8 @@
                 LastName = client.LastName,
                 Address = client.Address,
                 City = client.City,
-                Description = client.Description
+                Description = client.Description,
+                DateOfBirth = client.DateOfBirth
             };
 
             return clientDto;
