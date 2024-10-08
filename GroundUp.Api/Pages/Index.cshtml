@@ -50,14 +50,10 @@
 
                     </div>
                 </div>
-
             </div>
         </div>
 
-
         <div class="table-responsive">
-
-
             <table class="table table-bordered">
                 <!-- Header row for days of the week -->
                 <thead>
@@ -150,8 +146,6 @@
                                             @if (sessionStartDay == day && hour == sessionStartHour)
                                             {
                                                 <div class="d-flex flex-row mt-1">
-
-
                                                     <a asp-page="/Memberships/UpdateMembershipSession" asp-route-id="@sessionId" asp-route-clientId="@clientId" style="text-decoration: none; width: 100%; border-radius: 5px; background-color: @color; color: white; padding: 5px; font-size: 12px;  text-align: center">
                                                         @session.ClientName
                                                     </a>
@@ -159,9 +153,7 @@
                                                     <a asp-page="/Clients/Details" asp-route-id="@clientId" style="margin-left: 8px">
                                                         <i class="fa-regular fa-circle-right"></i>
                                                     </a>
-
                                                 </div>
-
                                             }
                                         }
 
