@@ -1,8 +1,8 @@
 namespace WebApplication1.Pages
 {
-    using GroundUp.Api.Application.Contracts;
-    using GroundUp.Api.Infrastructure.Database.Contracts;
+    using GroundUp.Api.Models;
     using GroundUp.Api.Services.Contracts;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using System;
     using System.Collections.Generic;
@@ -13,8 +13,10 @@ namespace WebApplication1.Pages
     public class IndexModel : PageModel
     {
 
+        [BindProperty]
         public DateTime StartDate { get; set; }
 
+        [BindProperty]
         public DateTime EndDate { get; set; }
 
         public List<CalendarItemViewModel> Items { get; set; } = new();
@@ -28,9 +30,15 @@ namespace WebApplication1.Pages
             this.calendarService = calendarService;
         }
 
-        public async Task OnGetAsync(CancellationToken cancellationToken)
+        public async Task OnGetAsync(int? year, int? month, int? day, CancellationToken cancellationToken)
         {
             DateTime currentDate = DateTime.Now;
+
+            if (year != null && month != null && day != null)
+            {
+                currentDate = new DateTime(year.Value, month.Value, day.Value);
+            }
+
             this.StartDate = currentDate.AddDays(-(int)currentDate.DayOfWeek + (int)DayOfWeek.Monday);
             this.EndDate = this.StartDate.AddDays(6);
 
@@ -53,21 +61,21 @@ namespace WebApplication1.Pages
                     s.MembershipTypeColor,
                     s.MembershipTypeName,
                     s.IsCancelled))
-                .ToList();  
+                .ToList();
+        }
 
-            
+        public IActionResult OnPostPreviousWeek(int year, int month, int day)
+        {
+            var previous = new DateTime(year, month, day).AddDays(-7);
+
+            return this.RedirectToPage("/Index", new { year = previous.Year, month = previous.Month, day = previous.Day });
+        }
+
+        public IActionResult OnPostNextWeek(int year, int month, int day)
+        {
+            var next = new DateTime(year, month, day).AddDays(7);
+
+            return this.RedirectToPage("/Index", new { year = next.Year, month = next.Month, day = next.Day });
         }
     }
-
-    public record CalendarItemViewModel(
-        Guid MembershipSessionId,
-        DateTime MembershipSessionStartDate,
-        DateTime MembershipSessionEndDate,
-        int StartTime,
-        int EndTime,
-        Guid ClientId,
-        string ClientName,
-        string MembershipTypeColor,
-        string MembershipTypeName,
-        bool IsCancelled);
 }

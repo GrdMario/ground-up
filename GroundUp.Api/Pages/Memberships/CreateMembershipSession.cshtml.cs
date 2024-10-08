@@ -139,7 +139,7 @@ namespace GroundUp.Api.Pages.Memberships
 
             await this.membershipSessionService.UpdateAsync(model, cancellationToken);
 
-            return RedirectToPage("/Index");
+            return RedirectToPage("/Index", new { year = this.Year, month = this.Month, day = this.Day});
         }
     }
 }
