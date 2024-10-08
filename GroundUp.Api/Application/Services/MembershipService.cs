@@ -33,9 +33,9 @@
             await this.uow.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<List<MembershipDto>> FilterMembershipsAsync(bool? isActive, CancellationToken cancellationToken)
+        public async Task<List<MembershipDto>> FilterMembershipsAsync(bool? isActive, bool? isCancelled, CancellationToken cancellationToken)
         {
-            var memberships = await this.uow.MembershipRepository.FilterMembershipsAsync(isActive, cancellationToken);
+            var memberships = await this.uow.MembershipRepository.FilterMembershipsAsync(isActive, isCancelled, cancellationToken);
 
             return memberships.Select(m => MembershipDto.FromMembership(m)).ToList();
         }

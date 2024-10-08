@@ -29,7 +29,7 @@
             this.memberships.Remove(membership);
         }
 
-        public async Task<List<Membership>> FilterMembershipsAsync(bool? isActive, CancellationToken cancellationToken)
+        public async Task<List<Membership>> FilterMembershipsAsync(bool? isActive, bool? isCancelled, CancellationToken cancellationToken)
         {
             var now = DateTime.UtcNow;
 
@@ -37,6 +37,7 @@
                 .Include(s => s.Client)
                 .Include(s => s.MembershipType)
                 .Include(s => s.MembershipSessions)
+                .WhereIf(isCancelled != null && isCancelled == true, s => s.FrozenDate != null)
                 .WhereIf(isActive != null && isActive == true, s => now.Date >= s.From.Date && now.Date <= s.To.Date && s.FrozenDate == null)
                 .OrderByDescending(s => s.From.Date)
                 .ToListAsync(cancellationToken);

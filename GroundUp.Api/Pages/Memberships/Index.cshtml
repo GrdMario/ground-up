@@ -6,20 +6,39 @@
 
 <div class="container">
 
-    @if (Model.Memberships.Count == 0)
-    {
-        <div class="card">
-            <p>No active memberships</p>
-        </div>
-    }
-
     <div class="card">
 
         <div class="row p-4">
             <div class="col-md-11">
-                <h3>Active Memberships</h3>
+                <h3>Memberships</h3>
             </div>
         </div>
+
+        <div class="row px-4">
+            <div class="col-md-12">
+                <form method="POST" class="row">
+                    <div class="col-md-2">
+
+                        <div class="form-check">
+                            <input asp-for="@Model.IsCancelled" class="form-check-input">
+                            <label for="isCancelled"> Is Cancelled?</label>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-check">
+                            <input asp-for="@Model.IsActive" class="form-check-input">
+                            <label for="isActive"> Is Active?</label>
+                      
+                        </div>
+                    </div>
+
+                    <div class="col-md-1 offset-7">
+                        <button class="btn btn-outline-primary" asp-page-handler="Search" asp-route-isCancelled="@Model.IsCancelled" asp-route-isActive="@Model.IsActive">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
 
 
         <div class="row p-4">

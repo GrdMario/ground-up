@@ -8,7 +8,7 @@
 
     public interface IMembershipRepository
     {
-        Task<List<Membership>> FilterMembershipsAsync(bool? isActive, CancellationToken cancellationToken);
+        Task<List<Membership>> FilterMembershipsAsync(bool? isActive, bool? isCancelled, CancellationToken cancellationToken);
 
         Task<Membership> GetMembershipByIdSafeAsync(Guid id, CancellationToken cancellationToken);
 

@@ -1,7 +1,9 @@
 namespace GroundUp.Api.Pages.Memberships
 {
+    using GroundUp.Api.Application.Models;
     using GroundUp.Api.Models;
     using GroundUp.Api.Services.Contracts;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using System.Collections.Generic;
     using System.Linq;
@@ -12,6 +14,10 @@ namespace GroundUp.Api.Pages.Memberships
     {
         private readonly IMembershipService membershipService;
 
+        public bool IsActive { get; set; }
+
+        public bool IsCancelled { get; set; }
+
         public List<MembershipViewModel> Memberships { get; set; } = [];
 
         public IndexModel(IMembershipService membershipService)
@@ -19,10 +25,36 @@ namespace GroundUp.Api.Pages.Memberships
             this.membershipService = membershipService;
         }
 
+        public async Task<IActionResult> OnPostSearchAsync(bool isCancelled, bool isActive, CancellationToken cancellationToken)
+        {
+            bool? isCancelledNullable = null;
+            bool? isActiveNullable = null;
+
+            if (isCancelled)
+            {
+                isCancelledNullable = isCancelled;
+            }
+
+            if (isActive)
+            {
+                isActiveNullable = isActive;
+            }
+
+            var members = await this.membershipService.FilterMembershipsAsync(isActiveNullable, isCancelledNullable, cancellationToken);
+
+            this.Map(members ?? []);
+            return this.Page();
+        }
+
         public async Task OnGetAsync(CancellationToken cancellationToken)
         {
-            var members = await this.membershipService.FilterMembershipsAsync(true, cancellationToken);
+            var members = await this.membershipService.FilterMembershipsAsync(null, null, cancellationToken);
 
+            this.Map(members ?? []);
+        }
+
+        private void Map(List<MembershipDto> members)
+        {
             this.Memberships = members
                 .Select(membership => new MembershipViewModel()
                 {

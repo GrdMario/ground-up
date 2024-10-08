@@ -10,7 +10,7 @@
     {
         Task<List<MembershipDto>> GetMembershipsByClientIdAsync(Guid clientId, CancellationToken cancellationToken);
 
-        Task<List<MembershipDto>> FilterMembershipsAsync(bool? isActive, CancellationToken cancellationToken);
+        Task<List<MembershipDto>> FilterMembershipsAsync(bool? isActive, bool? isCancelled, CancellationToken cancellationToken);
 
         Task<MembershipDto?> GetMembershipByIdAsync(Guid id, CancellationToken cancellationToken);
 
