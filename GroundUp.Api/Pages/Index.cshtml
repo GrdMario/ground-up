@@ -68,8 +68,11 @@
                         </th>
                         @foreach (var day in Model.Dates)
                         {
+                            var isToday = DateTime.Now.ToShortDateString() == day.ToShortDateString();
+                            var bgColor = isToday ? "#f2f2f2" : "";
 
-                            <th class="calendar_cell">
+
+                            <th class="calendar_cell" style="background-color: @bgColor">
 
                                 <div class="d-flex flex-column">
                                     @if (day.Day < 10)
