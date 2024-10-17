@@ -2,3 +2,74 @@
 @model GroundUp.Api.Pages.Organizations.IndexModel
 @{
 }
+
+<div class="container">
+    
+    <h1 class="text-centar">
+        Welcome <strong>Aletea</strong>
+    </h1>
+    
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="card p-4">
+
+                
+                <div class="row">
+                    <div class=" col-md-5 alert alert-primary" role="alert">
+                        <h6>Number of sessions today</h6>
+                        <h1 class="text-center">
+                            6
+                        </h1>
+                    </div>
+                    <div class="col-md-5 offset-2 alert alert-danger " role="alert">
+                        <h6>Number of cancelled y</h6>
+                        <h1 class="text-center">
+                            1
+                        </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div>
+                    <div class="py-4 border-bottom">
+                        <h4 class="text-center">Memberships</h4>
+                    </div>
+                    <div class="p-4">
+                        <canvas id="sessions"></canvas>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+    const ctx = document.getElementById('sessions');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Individualni', 'Poluindividualni', 'Grupni'],
+            datasets: [{
+                label: 'Tranings today',
+                data: [1, 4, 7],
+                borderWidth: 1,
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                ],
+                borderColor: [
+                    'rgb(75, 192, 192)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 99, 132)',
+
+                ],
+            }]
+        },
+
+    });
+</script>

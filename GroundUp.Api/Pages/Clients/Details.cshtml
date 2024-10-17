@@ -248,7 +248,7 @@
                                 <div class="alert alert-primary" role="alert">
                                     <h6>Sessions Left</h6>
                                     <h1 class="text-center">
-                                        @Model.ActiveMembership.SessionsLeft / @Model.ActiveMembership.SessionCount
+                                        @Model.ActiveMembership.SessionsLeft / @Model.ActiveMembership.MembershipSessions.Count
                                     </h1>
                                 </div>
                             </div>
@@ -298,7 +298,7 @@
     new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Used', 'Free', 'Cancelled'],
+            labels: ['Used', 'Left', 'Cancelled'],
             datasets: [{
                 label: '# of Sessions',
                 data: data,
