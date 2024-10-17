@@ -24,6 +24,8 @@ namespace GroundUp.Api.Pages.Clients
 
         public MembershipViewModel? ActiveMembership { get; set; }
 
+        public List<int> Values { get; set; } = [];
+
         [BindProperty]
         public Guid? ActiveMembershipId { get; set; }
 
@@ -89,7 +91,7 @@ namespace GroundUp.Api.Pages.Clients
                     SessionsLeft = s.MembershipSessions.Where(ms => ms.Start == null && ms.End == null).Count(),
                     FrozenDate = s.FrozenDate,
                     IsFrozen = s.FrozenDate != null,
-                    DaysLeft = (s.To - DateTime.Now).Days > 0 ? Convert.ToInt32((s.To-DateTime.Now).Days) : 0,
+                    DaysLeft = (s.To - DateTime.Now).Days > 0 ? Convert.ToInt32((s.To - DateTime.Now).Days) : 0,
                     MembershipType = new MembershipTypeViewModel()
                     {
                         Id = s.MembershipType.Id,
@@ -104,6 +106,12 @@ namespace GroundUp.Api.Pages.Clients
             if (this.ActiveMembership != null)
             {
                 this.ActiveMembershipId = this.ActiveMembership.Id;
+
+                var used = this.ActiveMembership.MembershipSessions.Where(s => s.Start != null && s.End != null && s.IsCancelled == false).Count();
+                var free = this.ActiveMembership.MembershipSessions.Where(s => s.Start == null && s.End == null && s.IsCancelled == false).Count();
+                var canceled = this.ActiveMembership.MembershipSessions.Where(s => s.IsCancelled).Count();
+
+                this.Values = [used, free, canceled];
             }
         }
 

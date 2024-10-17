@@ -12,7 +12,7 @@
         {
             services.AddDbContext<GroundUpContext>(opt =>
             {
-                opt.UseSqlite("Data Source=groundup.db");
+                opt.UseSqlite("Data Source=C:\\data\\GroundUp\\groundup.db");
             });
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();

@@ -1,5 +1,6 @@
 ﻿@page
 @model GroundUp.Api.Pages.Clients.DetailsModel
+@using System.Text.Json;
 @{
 }
 
@@ -218,7 +219,11 @@
             {
                 <div class="card">
                     <div class="py-4 border-bottom">
-                        <h4 class="text-center">Active Membership</h4>
+                        <h4 class="text-center">@Model.ActiveMembership.MembershipType.Name</h4>
+
+                        <small class="position-absolute top-0 start-0 p-2 text-muted">
+                            @Model.ActiveMembership.From.ToShortDateString() - @Model.ActiveMembership.To.ToShortDateString()
+                        </small>
 
                         <a class="position-absolute top-0 end-0 p-2 "
                            asp-page="/Memberships/Membership"
@@ -227,57 +232,49 @@
                         </a>
                     </div>
 
+                  
+
                     <div class="p-4">
-                        <table class="table table-bordered">
-
-                            <tr>
-                                <th>Name</th>
-                                <td>@Model.ActiveMembership.MembershipType.Name</td>
-                            </tr>
-
-                            <tr>
-                                <th>From</th>
-                                <td>@Model.ActiveMembership.From.ToShortDateString()</td>
-                            </tr>
-
-                            <tr>
-                                <th>To</th>
-                                <td>@Model.ActiveMembership.To.ToShortDateString()</td>
-                            </tr>
-                            <tr>
-                                <th>Number of Sessions</th>
-                                <td>@Model.ActiveMembership.SessionCount</td>
-                            </tr>
-
-                            <tr>
-                                <th>Days Left</th>
-                                <td>@Model.ActiveMembership.DaysLeft</td>
-                            </tr>
-
-                            <tr>
-                                <th>Sessions Left</th>
-                                <td>@Model.ActiveMembership.SessionsLeft</td>
-                            </tr>
-
-
-                        </table>
                         <div class="row">
-                            <div class="offset-10 col-md-2">
-                                <form method="POST" asp-page-handler="AddNewSession">
-                                    <input asp-for="ActiveMembershipId" hidden />
-                                    <input asp-for="Id" hidden />
-                                    <button type="submit" class="btn btn-outline-primary w-100"><i class="fa-solid fa-plus"> </i>  </button>
-                                </form>
-
+                            <div class="col-md-6">
+                                <div class="alert alert-primary" role="alert">
+                                    <h6>Days Left</h6>
+                                    <h1 class="text-center">
+                                        @Model.ActiveMembership.DaysLeft / 32
+                                    </h1>
+                                </div>
                             </div>
-
+                            <div class="col-md-6">
+                                <div class="alert alert-primary" role="alert">
+                                    <h6>Sessions Left</h6>
+                                    <h1 class="text-center">
+                                        @Model.ActiveMembership.SessionsLeft / @Model.ActiveMembership.SessionCount
+                                    </h1>
+                                </div>
+                            </div>
                         </div>
+
+                        <div class="row">
+                            <canvas id="sessions-chart">
+                            </canvas>
+                        </div>
+           
                     </div>
 
+                    <div class="row px-4">
+                        <div class="offset-10 col-md-2">
+                            <form method="POST" asp-page-handler="AddNewSession">
+                                <input asp-for="ActiveMembershipId" hidden />
+                                <input asp-for="Id" hidden />
+                                <button type="submit" class="btn btn-outline-primary w-100"><i class="fa-solid fa-plus"> </i>  </button>
+                            </form>
+                        </div>
+                    </div>
+             
 
                     @if (Model.ActiveMembership.MembershipSessions.Count > 0)
                     {
-                        <div class="px-4 pb-4">
+                        <div class="p-4 pb-4">
 
                             <div class="accordion" id="accordionExample">
                                 @foreach (var session in Model.ActiveMembership.MembershipSessions)
@@ -292,5 +289,39 @@
             }
         </div>
     </div>
-
 </div>
+
+
+<script type="module">
+    const ctx = document.getElementById('sessions-chart');
+    const data = @JsonSerializer.Serialize(Model.Values);;
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Used', 'Free', 'Cancelled'],
+            datasets: [{
+                label: '# of Sessions',
+                data: data,
+                borderWidth: 1,
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                ],
+                borderColor: [
+                    'rgb(75, 192, 192)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 99, 132)',
+
+                ],
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>

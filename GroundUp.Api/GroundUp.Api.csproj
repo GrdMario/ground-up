@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <StaticWebAssetBasePath Condition="$(StaticWebAssetBasePath) == ''">/path</StaticWebAssetBasePath>
+    <UserSecretsId>c1a7c630-defd-42fe-836a-8179383456d5</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
