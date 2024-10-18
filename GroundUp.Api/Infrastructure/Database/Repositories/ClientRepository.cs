@@ -54,5 +54,12 @@
         {
             this.clients.Remove(client);
         }
+
+        public async Task<List<Client>> GetByStartDateAndEndDateAsync(DateTime startDate, DateTime endDate, CancellationToken cancellationToken)
+        {
+            return await this.clients
+                .Where(c => c.CreatedAt >= startDate && c.CreatedAt <= endDate)
+                .ToListAsync(cancellationToken);
+        }
     }
 }

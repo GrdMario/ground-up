@@ -29,6 +29,7 @@
                 clientDto.DateOfBirth,
                 clientDto.Address,
                 clientDto.City,
+                DateTime.UtcNow,
                 clientDto.Description);
 
             this.uow.ClientRepository.Add(client);
@@ -81,6 +82,13 @@
             this.uow.ClientRepository.Update(client);
 
             await this.uow.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<List<ClientDto>> GetClientsByStartDateAndEndDateAsync(DateTime startDate, DateTime endDate, CancellationToken cancellationToken)
+        {
+            var clients = await this.uow.ClientRepository.GetByStartDateAndEndDateAsync(startDate, endDate, cancellationToken);
+
+            return clients.Select(client => ClientDto.FromClient(client)).ToList();
         }
     }
 }

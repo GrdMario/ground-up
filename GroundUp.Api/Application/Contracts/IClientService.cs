@@ -21,5 +21,7 @@
         Task DeleteAsync(Guid id, CancellationToken cancellationToken);
 
         Task<ClientDto> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+
+        Task<List<ClientDto>> GetClientsByStartDateAndEndDateAsync(DateTime startDate, DateTime endDate, CancellationToken cancellationToken);
     }
 }

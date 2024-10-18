@@ -23,6 +23,8 @@
 
         public string? Description { get; protected set; }
 
+        public DateTime CreatedAt { get; protected set; }
+
         public List<Membership> Memberships { get; protected set; } = [];
 
         protected Client() { }
@@ -35,6 +37,7 @@
             DateTime dateOfBirth,
             string address,
             string city,
+            DateTime createdAt,
             string? desrciption)
         {
             this.Id = Guid.NewGuid();
@@ -45,6 +48,7 @@
             this.DateOfBirth = dateOfBirth;
             this.Address = address.Trim();
             this.City = city.Trim();
+            this.CreatedAt = createdAt;
             this.Description = desrciption;
         }
 

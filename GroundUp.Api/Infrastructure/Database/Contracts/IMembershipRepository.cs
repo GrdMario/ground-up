@@ -20,6 +20,8 @@
 
         Task<List<Membership>> GetMembershipsByStartDateAsync(DateTime startDate, CancellationToken cancellationToken);
 
+        Task<List<Membership>> GetMembershipsBetweenStartDateAndEndDate(DateTime startDate, DateTime endDate, CancellationToken cancellationToken);
+
         void Add(Membership membership);
 
         void Update(Membership membership);

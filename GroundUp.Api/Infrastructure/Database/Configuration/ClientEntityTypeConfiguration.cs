@@ -24,6 +24,8 @@
 
             builder.Property(p => p.City).IsRequired();
 
+            builder.Property(p => p.CreatedAt).IsRequired();
+
             builder.HasMany(p => p.Memberships).WithOne().HasForeignKey(fk => fk.ClientId);
         }
     }

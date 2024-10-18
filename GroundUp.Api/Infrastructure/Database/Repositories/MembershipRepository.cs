@@ -29,6 +29,16 @@
             this.memberships.Remove(membership);
         }
 
+        public async Task<List<Membership>> FilterMembershipByStartDateAsync(DateTime startDate, DateTime endDate, CancellationToken cancellationToken)
+        {
+            return await this.memberships
+                .Where(m => (m.From >= startDate && m.To <= startDate))
+                .Include(s => s.Client)
+                .Include(m => m.MembershipType)
+                .Include(m => m.MembershipSessions)
+                .ToListAsync(cancellationToken);
+        }
+
         public async Task<List<Membership>> FilterMembershipsAsync(bool? isActive, bool? isCancelled, CancellationToken cancellationToken)
         {
             var now = DateTime.UtcNow;
@@ -86,6 +96,17 @@
         {
             return await this.memberships
                 .Where(m => m.From.Date <= startDate.Date && m.To.Date >= startDate.Date)
+                .Include(s => s.Client)
+                .Include(s => s.MembershipType)
+                .Include(s => s.MembershipSessions)
+                .OrderByDescending(s => s.From.Date)
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task<List<Membership>> GetMembershipsBetweenStartDateAndEndDate(DateTime startDate, DateTime endDate, CancellationToken cancellationToken)
+        {
+            return await this.memberships
+                .Where(m => m.From >= startDate && m.From <= endDate)
                 .Include(s => s.Client)
                 .Include(s => s.MembershipType)
                 .Include(s => s.MembershipSessions)

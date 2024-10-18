@@ -3,6 +3,7 @@ using System;
 using GroundUp.Api.Infrastructure.Database.Internal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GroundUp.Api.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(GroundUpContext))]
-    partial class GroundUpContextModelSnapshot : ModelSnapshot
+    [Migration("20241018125548_AddingCreatedAt")]
+    partial class AddingCreatedAt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.8");

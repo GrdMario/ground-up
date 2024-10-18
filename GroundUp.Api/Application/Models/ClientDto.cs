@@ -23,6 +23,8 @@
 
         public string? Description { get; set; }
 
+        public DateTime CreatedAt { get; set; }
+
         public static ClientDto FromClient(Client client)
         {
             var clientDto = new ClientDto
@@ -35,7 +37,8 @@
                 Address = client.Address,
                 City = client.City,
                 Description = client.Description,
-                DateOfBirth = client.DateOfBirth
+                DateOfBirth = client.DateOfBirth,
+                CreatedAt = client.CreatedAt,
             };
 
             return clientDto;

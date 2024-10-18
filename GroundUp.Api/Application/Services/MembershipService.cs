@@ -92,5 +92,12 @@
 
             await this.uow.SaveChangesAsync(cancellationToken);
         }
+
+        public async Task<List<MembershipDto>> GetMembershipsBetweenStartDateAndEndDate(DateTime startDate, DateTime endDate, CancellationToken cancellationToken)
+        {
+            var memberships = await this.uow.MembershipRepository.GetMembershipsBetweenStartDateAndEndDate(startDate, endDate, cancellationToken);
+
+            return memberships.Select(m => MembershipDto.FromMembership(m)).ToList();
+        }
     }
 }

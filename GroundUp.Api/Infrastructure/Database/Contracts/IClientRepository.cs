@@ -10,6 +10,8 @@
     {
         Task<List<Client>> GetAsync(string? firstName, string? lastName, int skip, int take, CancellationToken cancellationToken);
 
+        Task<List<Client>> GetByStartDateAndEndDateAsync(DateTime startDate, DateTime endDate, CancellationToken cancellationToken);
+
         Task<Client> GetByIdSafeAsync(Guid id, CancellationToken cancellationToken);
 
         Task<Client?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
