@@ -13,7 +13,7 @@
     <div class="d-flex flex-lg-row flex-md-column flex-sm-column py-4 justify-content-between align-items-stretch">
         <div class="m-2 card flex-grow-1">
             <div class="d-flex flex-row justify-content-between w-100 border-bottom pb-2">
-                <div class="bg-light-green p-4 m-2 text-white rounded">
+                <div class="bg-groundup-blue p-4 m-2 text-white rounded">
                     <i class="fa-solid fa-users"></i>
                 </div>
                 <div class="d-flex flex-column m-2 w-100 text-right">
@@ -32,7 +32,7 @@
 
         <div class="m-2 card flex-grow-1">
             <div class="d-flex flex-row justify-content-between w-100 border-bottom pb-2">
-                <div class="bg-light-blue p-4 m-2 text-white rounded">
+                <div class="bg-groundup-orange p-4 m-2 text-white rounded">
                     <i class="fa-solid fa-dumbbell"></i>
                 </div>
                 <div class="d-flex flex-column m-2 w-100 text-right">
@@ -51,7 +51,7 @@
 
         <div class="m-2 card flex-grow-1">
             <div class="d-flex flex-row justify-content-between w-100 border-bottom pb-2">
-                <div class="bg-light-red p-4 m-2 text-white rounded">
+                <div class="bg-groundup-green p-4 m-2 text-white rounded">
                     <i class="fa-solid fa-tag"></i>
                 </div>
                 <div class="d-flex flex-column m-2 w-100 text-right">
@@ -100,7 +100,7 @@
     <div class="d-flex flex-lg-row flex-md-column flex-sm-column py-4 justify-content-between align-items-stretch">
         <div class="m-2 card flex-grow-1">
             <div class="d-flex flex-row justify-content-between w-100 border-bottom pb-2">
-                <div class="bg-light-green p-4 m-2 text-white rounded">
+                <div class="bg-groundup-blue p-4 m-2 text-white rounded">
                     <i class="fa-solid fa-users"></i>
                 </div>
                 <div class="d-flex flex-column m-2 w-100 text-right">
@@ -119,7 +119,7 @@
 
         <div class="m-2 card flex-grow-1">
             <div class="d-flex flex-row justify-content-between w-100 border-bottom pb-2">
-                <div class="bg-light-blue p-4 m-2 text-white rounded">
+                <div class="bg-groundup-orange p-4 m-2 text-white rounded">
                     <i class="fa-solid fa-dumbbell"></i>
                 </div>
                 <div class="d-flex flex-column m-2 w-100 text-right">
@@ -138,7 +138,7 @@
 
         <div class="m-2 card flex-grow-1">
             <div class="d-flex flex-row justify-content-between w-100 border-bottom pb-2">
-                <div class="bg-light-red p-4 m-2 text-white rounded">
+                <div class="bg-danger p-4 m-2 text-white rounded">
                     <i class="fa-solid fa-dumbbell"></i>
                 </div>
                 <div class="d-flex flex-column m-2 w-100 text-right">
@@ -162,8 +162,8 @@
                 <div class="py-4 border-bottom">
                     <h4 class="text-center">This weeks summary.</h4>
                 </div>
-                <div class="p-4">
-                    <canvas id="week-summary"></canvas>
+                <div class="p-4 flex flex-row justify-content-center align-items-center"  style="height: 400px">
+                    <canvas id="week-summary" style="margin: auto"></canvas>
                 </div>
             </div>
         </div>
@@ -186,8 +186,8 @@
     <div class="d-flex flex-lg-row flex-md-column flex-sm-column py-4 justify-content-between align-items-stretch">
         <div class="card p-4 m-2 flex-grow-1">
             <div class="row">
-                <div class="col-md-6">
-                    <canvas id="today-types"></canvas>
+                <div class="col-md-6" style="height: 400px">
+                    <canvas id="today-types" style="margin: auto"></canvas>
                 </div>
                 <div class="col-md-6">
                     <ul class="list-group">
@@ -236,20 +236,26 @@
 
 <script type="module">
 
+    // background-color: rgb(36 61 101);
+    // background-color: rgb(195 116 54); 
+    // background-color: rgb(69 94 61);
+
     // Today
     const months = @Html.Raw(JsonSerializer.Serialize(Model.Months));
-    const types = @Html.Raw(JsonSerializer.Serialize(Model.TodayTypesData));
+
+    const typesLabel = @Html.Raw(JsonSerializer.Serialize(Model.TodayTypes));
+    const typesData = @Html.Raw(JsonSerializer.Serialize(Model.TodayTypesData));
     const todayTypes = document.getElementById('today-types');
     new Chart(todayTypes, {
         type: 'pie',
         data: {
-            labels: types,
+            labels: typesLabel,
             datasets: [{
-                data: types,
+                data: typesData,
                 backgroundColor: [
-                   'rgb(75, 192, 192)',
-                  'rgb(54, 162, 235)',
-                  'rgb(255, 99, 132)'
+                  'rgb(36 61 101)',
+                  'rgb(195 116 54)',
+                  'rgb(69 94 61)',
                 ],
             }]
         },
@@ -267,9 +273,9 @@
             datasets: [{
                 data: weekSummaryData,
                 backgroundColor: [
-                  'rgb(75, 192, 192)',
-                  'rgb(54, 162, 235)',
-                  'rgb(255, 99, 132)'
+                  'rgb(36 61 101)',
+                  'rgb(195 116 54)',
+                  '#dc3545',
                 ],
               }]
         },
@@ -287,12 +293,9 @@
                 data: weekHistoryData,
                 borderWidth: 1,
                 backgroundColor: [
-                    'rgba(75, 192, 192, 0.2)',
+                    'rgb(36 61 101)'
                 ],
-                borderColor: [
-                    'rgb(75, 192, 192)',
-
-                ],
+               
             }]
         },
     });
@@ -306,7 +309,7 @@
             label: 'Clients',
             data: clientsData,
             fill: false,
-            backgroundColor: 'rgb(75, 192, 192)',
+            backgroundColor: 'rgb(36 61 101)',
             tension: 0.1
         }]
     };
@@ -324,7 +327,7 @@
             label: 'Memberships',
             data: membershipData,
             fill: false,
-            backgroundColor: 'rgb(54, 162, 235)',
+            backgroundColor: ' rgb(195 116 54)',
             tension: 0.1
         }]
     };
