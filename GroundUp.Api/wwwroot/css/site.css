@@ -122,10 +122,22 @@ btn-small {
 
 #sidebar {
     height: 100%;
+    background-color: #455e3d;
+    color: white
 }
 
-.header-logo {
+.sidebar-logo {
+    font-size: 20px;
+    padding: 16px;
+    border-bottom: 1px solid white;
+}
+
+.sidebar-item {
+    color: white;
     text-decoration: none;
-    color: black;
-    font-size: 24px;
+}
+
+.sidebar-item:hover {
+    background-color: black;
+    color: white;
 }
