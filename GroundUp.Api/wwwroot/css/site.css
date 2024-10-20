@@ -115,3 +115,17 @@ btn-small {
 .text-light-red {
     color: rgb(255, 99, 132);
 }
+
+#sidebar-nav {
+    width: 260px;
+}
+
+#sidebar {
+    height: 100%;
+}
+
+.header-logo {
+    text-decoration: none;
+    color: black;
+    font-size: 24px;
+}
