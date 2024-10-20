@@ -1,172 +1,336 @@
 ﻿@page
-@model IndexModel
+@using System.Text.Json;
+@model GroundUp.Api.Pages.IndexModel
 @{
-    ViewData["Title"] = "Home page";
-    string[] daysOfWeek = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
-    int[] hoursOfDay = Enumerable.Range(6, 16).ToArray();
 }
 
+<div class="container">
 
-<div class="mx-4">
+    <h3 class="text-centar text-muted ">
+        This year
+    </h3>
 
-    <div class="card px-4 py-2">
-        <div class="row p-4 text-center">
-            <div class="col-md-2">
-                <div class="row">
-                    <div class="col-md-4">
-                        <form method="POST">
-                            <input asp-for="StartDate" type="hidden" />
-                            <button class="btn btn-primary w-100" asp-page-handler="PreviousWeek" asp-route-year="@Model.StartDate.Year" asp-route-month="@Model.StartDate.Month" asp-route-day="@Model.StartDate.Day">
-                                <i class="fa-2x fa-solid fa-arrow-circle-left"></i>
-                            </button>
-                        </form>
-                    </div>
-                    <div class="col-md-8 m-auto">
+    <div class="d-flex flex-lg-row flex-md-column flex-sm-column py-4 justify-content-between align-items-stretch">
+        <div class="m-2 card flex-grow-1">
+            <div class="d-flex flex-row justify-content-between w-100 border-bottom pb-2">
+                <div class="bg-light-green p-4 m-2 text-white rounded">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+                <div class="d-flex flex-column m-2 w-100 text-right">
+                    <div>
+                        <div style="font-size: 18px"><span><strong>Clients</strong></span></div>
                         <div>
-                            <strong>@Model.StartDate.ToShortDateString()</strong>
+                            <h2 class="text-muted">@Model.ClientsCount</h2>
                         </div>
                     </div>
                 </div>
-
             </div>
-            <div class="col-md-8 text-center">
-                <h3>GROUND UP</h3>
+            <div class="p-2 text-right text-muted" style="font-size: 14px">
+                <small>New clients this year.</small>
             </div>
-            <div class="col-md-2">
-                <div class="row">
+        </div>
 
-                    <div class="col-md-8 m-auto">
+        <div class="m-2 card flex-grow-1">
+            <div class="d-flex flex-row justify-content-between w-100 border-bottom pb-2">
+                <div class="bg-light-blue p-4 m-2 text-white rounded">
+                    <i class="fa-solid fa-dumbbell"></i>
+                </div>
+                <div class="d-flex flex-column m-2 w-100 text-right">
+                    <div>
+                        <div style="font-size: 18px"><span><strong>Memberships</strong></span></div>
                         <div>
-                            <strong> @Model.EndDate.ToShortDateString()</strong>
+                            <h2 class="text-muted">@Model.MembershipsCount</h2>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <form method="POST">
-                            <input asp-for="StartDate" type="hidden" />
-                            <button class="btn btn-primary w-100" asp-page-handler="NextWeek" asp-route-year="@Model.StartDate.Year" asp-route-month="@Model.StartDate.Month" asp-route-day="@Model.StartDate.Day">
-                                <i class="fa-2x fa-solid fa-arrow-circle-right"></i>
-                            </button>
-                        </form>
-
                     </div>
                 </div>
             </div>
+            <div class="p-2 text-right text-muted" style="font-size: 14px">
+                <small>New memberships this year.</small>
+            </div>
         </div>
 
-        <div class="table-responsive">
-            <table class="table table-bordered">
-                <!-- Header row for days of the week -->
-                <thead>
-                    <tr>
-                        <th style="width: 80px">
-
-
-                        </th>
-                        @foreach (var day in Model.Dates)
-                        {
-                            var isToday = DateTime.Now.ToShortDateString() == day.ToShortDateString();
-                            var bgColor = isToday ? "#f2f2f2" : "";
-
-
-                            <th class="calendar_cell" style="background-color: @bgColor">
-
-                                <div class="d-flex flex-column">
-                                    @if (day.Day < 10)
-                                    {
-                                        var prefixDay = "0" + day.Day;
-                                        <h2>@prefixDay</h2>
-                                    }
-                                    else
-                                    {
-                                        <h2>@day.Day</h2>
-                                    }
-                                    <small>@day.DayOfWeek</small>
-                                </div>
-                            </th>
-                        }
-                    </tr>
-                </thead>
-
-                <!-- Body rows for hours of the day -->
-                <tbody>
-                    @foreach (var hour in hoursOfDay)
-                    {
-                        <tr>
-                            <!-- First column for the hour -->
-                            <td>
-                                @if (hour < 10)
-                                {
-                                    var prefixHour = "0" + hour + ":00";
-                                    <span><strong>@prefixHour</strong></span>
-                                }
-                                else
-                                {
-                                    <span style="font-size: 16px"><strong>@hour:00</strong></span>
-                                }
-
-                            </td>
-
-                            <!-- Loop over each day to create a cell for that hour -->
-                            @foreach (var dayIndex in Enumerable.Range(0, 7)) // 0 for Monday to 6 for Sunday
-                            {
-                                var day = (DayOfWeek)(dayIndex + 1); // Convert index to DayOfWeek
-
-                                if (dayIndex == 6)
-                                {
-                                    day = DayOfWeek.Sunday;
-                                }
-
-                                var dayInWeek = Model.Dates.FirstOrDefault(d => d.DayOfWeek == day);
-
-                                var zero = 0;
-                                var sixty = 59;
-
-
-                                var fromDate = new DateTime(dayInWeek.Year, dayInWeek.Month, dayInWeek.Day, hour, zero, zero);
-                                var toDate = new DateTime(dayInWeek.Year, dayInWeek.Month, dayInWeek.Day, hour, sixty, zero);
-
-                                <td id="@dayInWeek.ToShortDateString()">
-                                    <div id="@fromDate.ToShortDateString()">
-                                        <div class="d-flex justify-content-end align-items-center">
-                                            <a asp-page="/Memberships/CreateMembershipSession" asp-route-year="@dayInWeek.Year" asp-route-month="@dayInWeek.Month" asp-route-day="@dayInWeek.Day" asp-route-hour="@hour"
-                                               style="margin-left: 8px;">
-                                                <i class="fa-solid fa-circle-plus"></i>
-                                            </a>
-                                        </div>
-                                        @foreach (var session in Model.Items)
-                                        {
-                                            var sessionStartDay = session.MembershipSessionStartDate.DayOfWeek;
-                                            var sessionEndDay = session.MembershipSessionEndDate.DayOfWeek;
-                                            var sessionStartHour = session.StartTime;
-                                            var sessionEndHour = session.EndTime;
-                                            var color = session.IsCancelled ? "red" : session.MembershipTypeColor;
-                                            var sessionId = session.MembershipSessionId;
-                                            var clientId = session.ClientId;
-
-                                            @if (sessionStartDay == day && hour == sessionStartHour)
-                                            {
-                                                <div class="d-flex flex-row mt-1">
-                                                    <a asp-page="/Memberships/UpdateMembershipSession" asp-route-id="@sessionId" asp-route-clientId="@clientId" style="text-decoration: none; width: 100%; border-radius: 5px; background-color: @color; color: white; padding: 5px; font-size: 12px;  text-align: center">
-                                                        @session.ClientName
-                                                    </a>
-
-                                                    <a asp-page="/Clients/Details" asp-route-id="@clientId" style="margin-left: 8px">
-                                                        <i class="fa-regular fa-circle-right"></i>
-                                                    </a>
-                                                </div>
-                                            }
-                                        }
-
-                                    </div>
-
-                                </td>
-                            }
-                        </tr>
-                    }
-                </tbody>
-            </table>
-
+        <div class="m-2 card flex-grow-1">
+            <div class="d-flex flex-row justify-content-between w-100 border-bottom pb-2">
+                <div class="bg-light-red p-4 m-2 text-white rounded">
+                    <i class="fa-solid fa-tag"></i>
+                </div>
+                <div class="d-flex flex-column m-2 w-100 text-right">
+                    <div>
+                        <div style="font-size: 18px"><span><strong>Types</strong></span></div>
+                        <div>
+                            <h2 class="text-muted">@Model.TypesCount</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-2 text-right text-muted" style="font-size: 14px">
+                <small>Number of avaliable groups.</small>
+            </div>
         </div>
-
     </div>
+
+    <div class="d-flex flex-sm-column flex-md-row pb-4">
+        <div class="col-sm-12 col-md-6 card flex-fill m-2">
+            <div>
+                <div class="py-4 border-bottom">
+                    <h4 class="text-center">Clients</h4>
+                </div>
+                <div class="p-4">
+                    <canvas id="clients-history"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6 card flex-fill m-2">
+            <div>
+                <div class="py-4 border-bottom">
+                    <h4 class="text-center">Memberships</h4>
+                </div>
+                <div class="p-4">
+                    <canvas id="memberships-history"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <h3 class="text-centar text-muted ">
+        This week
+    </h3>
+
+    <div class="d-flex flex-lg-row flex-md-column flex-sm-column py-4 justify-content-between align-items-stretch">
+        <div class="m-2 card flex-grow-1">
+            <div class="d-flex flex-row justify-content-between w-100 border-bottom pb-2">
+                <div class="bg-light-green p-4 m-2 text-white rounded">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+                <div class="d-flex flex-column m-2 w-100 text-right">
+                    <div>
+                        <div style="font-size: 18px"><span><strong>Clients</strong></span></div>
+                        <div>
+                            <h2 class="text-muted">@Model.ClientCountThisWeek</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-2 text-right text-muted" style="font-size: 14px">
+                Number of clients you will work with this week
+            </div>
+        </div>
+
+        <div class="m-2 card flex-grow-1">
+            <div class="d-flex flex-row justify-content-between w-100 border-bottom pb-2">
+                <div class="bg-light-blue p-4 m-2 text-white rounded">
+                    <i class="fa-solid fa-dumbbell"></i>
+                </div>
+                <div class="d-flex flex-column m-2 w-100 text-right">
+                    <div>
+                        <div style="font-size: 18px"><span><strong>Sessions</strong></span></div>
+                        <div>
+                            <h2 class="text-muted">@Model.SessionCountThisWeek</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-2 text-right text-muted" style="font-size: 14px">
+                <span class="text-primary" style="font-size: 18px; font-weight: 500">@Model.PassedSessionCountThisWeek </span> / @Model.SessionCountThisWeek completed
+            </div>
+        </div>
+
+        <div class="m-2 card flex-grow-1">
+            <div class="d-flex flex-row justify-content-between w-100 border-bottom pb-2">
+                <div class="bg-light-red p-4 m-2 text-white rounded">
+                    <i class="fa-solid fa-dumbbell"></i>
+                </div>
+                <div class="d-flex flex-column m-2 w-100 text-right">
+                    <div>
+                        <div style="font-size: 18px"><span><strong>Cancelled</strong></span></div>
+                        <div>
+                            <h2 class="text-muted">@Model.CancelledSessionCountThisWeek</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-2 text-right text-muted" style="font-size: 14px">
+                Number of cancelled sessions.
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex flex-sm-column flex-md-row pb-4">
+        <div class="col-sm-12 col-md-6 card flex-fill m-2">
+            <div>
+                <div class="py-4 border-bottom">
+                    <h4 class="text-center">This weeks summary.</h4>
+                </div>
+                <div class="p-4">
+                    <canvas id="week-summary"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6 card flex-fill m-2">
+            <div>
+                <div class="py-4 border-bottom">
+                    <h4 class="text-center">This weeks history.</h4>
+                </div>
+                <div class="p-4">
+                    <canvas id="week-history"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="text-centar text-muted">
+        Today
+    </h3>
+
+    <div class="d-flex flex-lg-row flex-md-column flex-sm-column py-4 justify-content-between align-items-stretch">
+        <div class="card p-4 m-2 flex-grow-1">
+            <div class="row">
+                <div class="col-md-6">
+                    <canvas id="today-types"></canvas>
+                </div>
+                <div class="col-md-6">
+                    <ul class="list-group">
+                        <div class="mb-2 text-muted">Pending sessions:</div>
+
+                        <table class="table table-bordered table-hover">
+                             <thead>
+                               <tr>
+                                 <th scope="col">Type</th>
+                                 <th scope="col">Client</th>
+                                 <th scope="col">Time</th>
+                                 <th>#</th>
+                               </tr>
+                             </thead>
+                             <tbody>
+
+                                 @foreach(var session in Model.SessionItems)
+                                {
+                                        var isPassed = session.End < DateTime.Now;
+                                        var rowColor = isPassed ? "0.5" : "";
+
+                                    <tr style="opacity: @rowColor">
+                                        <partial name="Shared/_ColorColumn" model="@session.Color" />
+                                        <td>@session.Name</td>
+                                        <td>
+                                            <strong>@session.Start.ToShortTimeString()</strong> to <strong>@session.End.ToShortTimeString()</strong>
+                                        </td>
+                                        <td>
+                                            @if (session.IsCancelled)
+                                            {
+                                                <i class="fa-solid fa-circle-exclamation" style="color: var(--bs-danger); font-size: 20px;"></i>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                             </tbody>
+                        </table>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>
+
+<script type="module">
+
+    // Today
+    const months = @Html.Raw(JsonSerializer.Serialize(Model.Months));
+    const types = @Html.Raw(JsonSerializer.Serialize(Model.TodayTypesData));
+    const todayTypes = document.getElementById('today-types');
+    new Chart(todayTypes, {
+        type: 'pie',
+        data: {
+            labels: types,
+            datasets: [{
+                data: types,
+                backgroundColor: [
+                   'rgb(75, 192, 192)',
+                  'rgb(54, 162, 235)',
+                  'rgb(255, 99, 132)'
+                ],
+            }]
+        },
+    });
+
+    // This week
+
+    const weekSummaryLabels = @Html.Raw(JsonSerializer.Serialize(Model.WeekSummaryLables));
+    const weekSummaryData = @Html.Raw(JsonSerializer.Serialize(Model.WeekSummaryData));
+    const weekSummary = document.getElementById('week-summary');
+    new Chart(weekSummary, {
+        type: 'pie',
+        data: {
+            labels: weekSummaryLabels,
+            datasets: [{
+                data: weekSummaryData,
+                backgroundColor: [
+                  'rgb(75, 192, 192)',
+                  'rgb(54, 162, 235)',
+                  'rgb(255, 99, 132)'
+                ],
+              }]
+        },
+    });
+
+    const weekHistoryLabels = @Html.Raw(JsonSerializer.Serialize(Model.WeekHistoryLabels));
+    const weekHistoryData = @Html.Raw(JsonSerializer.Serialize(Model.WeekHistoryData));
+    const weekHistory = document.getElementById('week-history');
+    new Chart(weekHistory, {
+        type: 'bar',
+        data: {
+            labels: weekHistoryLabels,
+            datasets: [{
+                label: 'This week history',
+                data: weekHistoryData,
+                borderWidth: 1,
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.2)',
+                ],
+                borderColor: [
+                    'rgb(75, 192, 192)',
+
+                ],
+            }]
+        },
+    });
+
+    // This year
+    const clientsHistory = document.getElementById('clients-history')
+    const clientsData = @JsonSerializer.Serialize(Model.ClientsData);
+    const clients = {
+        labels: months,
+        datasets: [{
+            label: 'Clients',
+            data: clientsData,
+            fill: false,
+            backgroundColor: 'rgb(75, 192, 192)',
+            tension: 0.1
+        }]
+    };
+
+    new Chart(clientsHistory, {
+        type: 'bar',
+        data: clients
+    });
+
+    const membershipsHistory = document.getElementById('memberships-history');
+    const membershipData = @JsonSerializer.Serialize(Model.MembershipData);
+    const memberships = {
+        labels: months,
+        datasets: [{
+            label: 'Memberships',
+            data: membershipData,
+            fill: false,
+            backgroundColor: 'rgb(54, 162, 235)',
+            tension: 0.1
+        }]
+    };
+
+    new Chart(membershipsHistory, {
+        type: 'bar',
+        data: memberships
+    });
+</script>

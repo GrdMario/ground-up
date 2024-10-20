@@ -1,0 +1,172 @@
+﻿@page
+@model GroundUp.Api.Pages.Calendars.IndexModel
+@{
+    ViewData["Title"] = "Home page";
+    string[] daysOfWeek = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+    int[] hoursOfDay = Enumerable.Range(6, 16).ToArray();
+}
+
+
+<div class="mx-4">
+
+    <div class="card px-4 py-2">
+        <div class="row p-4 text-center">
+            <div class="col-md-2">
+                <div class="row">
+                    <div class="col-md-4">
+                        <form method="POST">
+                            <input asp-for="StartDate" type="hidden" />
+                            <button class="btn btn-primary w-100" asp-page-handler="PreviousWeek" asp-route-year="@Model.StartDate.Year" asp-route-month="@Model.StartDate.Month" asp-route-day="@Model.StartDate.Day">
+                                <i class="fa-2x fa-solid fa-arrow-circle-left"></i>
+                            </button>
+                        </form>
+                    </div>
+                    <div class="col-md-8 m-auto">
+                        <div>
+                            <strong>@Model.StartDate.ToShortDateString()</strong>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-8 text-center">
+                <h3>GROUND UP</h3>
+            </div>
+            <div class="col-md-2">
+                <div class="row">
+
+                    <div class="col-md-8 m-auto">
+                        <div>
+                            <strong> @Model.EndDate.ToShortDateString()</strong>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <form method="POST">
+                            <input asp-for="StartDate" type="hidden" />
+                            <button class="btn btn-primary w-100" asp-page-handler="NextWeek" asp-route-year="@Model.StartDate.Year" asp-route-month="@Model.StartDate.Month" asp-route-day="@Model.StartDate.Day">
+                                <i class="fa-2x fa-solid fa-arrow-circle-right"></i>
+                            </button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <!-- Header row for days of the week -->
+                <thead>
+                    <tr>
+                        <th style="width: 80px">
+
+
+                        </th>
+                        @foreach (var day in Model.Dates)
+                        {
+                            var isToday = DateTime.Now.ToShortDateString() == day.ToShortDateString();
+                            var bgColor = isToday ? "#f2f2f2" : "";
+
+
+                            <th class="calendar_cell" style="background-color: @bgColor">
+
+                                <div class="d-flex flex-column">
+                                    @if (day.Day < 10)
+                                    {
+                                        var prefixDay = "0" + day.Day;
+                                        <h2>@prefixDay</h2>
+                                    }
+                                    else
+                                    {
+                                        <h2>@day.Day</h2>
+                                    }
+                                    <small>@day.DayOfWeek</small>
+                                </div>
+                            </th>
+                        }
+                    </tr>
+                </thead>
+
+                <!-- Body rows for hours of the day -->
+                <tbody>
+                    @foreach (var hour in hoursOfDay)
+                    {
+                        <tr>
+                            <!-- First column for the hour -->
+                            <td>
+                                @if (hour < 10)
+                                {
+                                    var prefixHour = "0" + hour + ":00";
+                                    <span><strong>@prefixHour</strong></span>
+                                }
+                                else
+                                {
+                                    <span style="font-size: 16px"><strong>@hour:00</strong></span>
+                                }
+
+                            </td>
+
+                            <!-- Loop over each day to create a cell for that hour -->
+                            @foreach (var dayIndex in Enumerable.Range(0, 7)) // 0 for Monday to 6 for Sunday
+                            {
+                                var day = (DayOfWeek)(dayIndex + 1); // Convert index to DayOfWeek
+
+                                if (dayIndex == 6)
+                                {
+                                    day = DayOfWeek.Sunday;
+                                }
+
+                                var dayInWeek = Model.Dates.FirstOrDefault(d => d.DayOfWeek == day);
+
+                                var zero = 0;
+                                var sixty = 59;
+
+
+                                var fromDate = new DateTime(dayInWeek.Year, dayInWeek.Month, dayInWeek.Day, hour, zero, zero);
+                                var toDate = new DateTime(dayInWeek.Year, dayInWeek.Month, dayInWeek.Day, hour, sixty, zero);
+
+                                <td id="@dayInWeek.ToShortDateString()">
+                                    <div id="@fromDate.ToShortDateString()">
+                                        <div class="d-flex justify-content-end align-items-center">
+                                            <a asp-page="/Memberships/CreateMembershipSession" asp-route-year="@dayInWeek.Year" asp-route-month="@dayInWeek.Month" asp-route-day="@dayInWeek.Day" asp-route-hour="@hour"
+                                               style="margin-left: 8px;">
+                                                <i class="fa-solid fa-circle-plus"></i>
+                                            </a>
+                                        </div>
+                                        @foreach (var session in Model.Items)
+                                        {
+                                            var sessionStartDay = session.MembershipSessionStartDate.DayOfWeek;
+                                            var sessionEndDay = session.MembershipSessionEndDate.DayOfWeek;
+                                            var sessionStartHour = session.StartTime;
+                                            var sessionEndHour = session.EndTime;
+                                            var color = session.IsCancelled ? "red" : session.MembershipTypeColor;
+                                            var sessionId = session.MembershipSessionId;
+                                            var clientId = session.ClientId;
+
+                                            @if (sessionStartDay == day && hour == sessionStartHour)
+                                            {
+                                                <div class="d-flex flex-row mt-1">
+                                                    <a asp-page="/Memberships/UpdateMembershipSession" asp-route-id="@sessionId" asp-route-clientId="@clientId" style="text-decoration: none; width: 100%; border-radius: 5px; background-color: @color; color: white; padding: 5px; font-size: 12px;  text-align: center">
+                                                        @session.ClientName
+                                                    </a>
+
+                                                    <a asp-page="/Clients/Details" asp-route-id="@clientId" style="margin-left: 8px">
+                                                        <i class="fa-regular fa-circle-right"></i>
+                                                    </a>
+                                                </div>
+                                            }
+                                        }
+
+                                    </div>
+
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+</div>
