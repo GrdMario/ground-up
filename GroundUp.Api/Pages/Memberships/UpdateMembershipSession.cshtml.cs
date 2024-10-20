@@ -53,12 +53,28 @@ namespace GroundUp.Api.Pages.Memberships
 
         public async Task<IActionResult> OnPostUpdateAsync(CancellationToken cancellationToken)
         {
+            var correctedStart = this.Update.Start;
+            var correctedEnd = this.Update.End;
+
+            if (correctedStart.HasValue)
+            {
+                correctedStart = new DateTime(
+                correctedStart.Value.Year,
+                correctedStart.Value.Month,
+                correctedStart.Value.Day,
+                correctedStart.Value.Hour,
+                0,
+                0);
+
+                correctedEnd = correctedStart.Value.AddMinutes(55);
+            }
+
             var model = new UpdateMembershipSessionDto()
             {
                 Id = this.Update.Id,
                 MembershipId = this.Update.MembershipId,
-                Start = this.Update.Start,
-                End = this.Update.End,
+                Start = correctedStart,
+                End = correctedEnd,
                 Comment = this.Update.Comment,
                 IsCancelled = this.Update.IsCancelled,
             };

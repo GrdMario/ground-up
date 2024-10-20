@@ -80,6 +80,8 @@ namespace GroundUp.Api.Pages.Memberships
                 SessionCount = membership.SessionCount,
                 MembershipSessions =
                         membership.MembershipSessions
+                        .OrderBy(ob => ob.Start.HasValue ? 0 : 1)
+                        .ThenBy(ob => ob.Start)
                             .Select(ms => new MembershipSessionViewModel()
                             {
                                 SessionId = ms.Id,
@@ -91,7 +93,11 @@ namespace GroundUp.Api.Pages.Memberships
                                 ClientId = membership.ClientId,
                                 Start = ms.Start,
                                 CreatedAt = ms.CreatedAt,
-                                Count = membership.MembershipSessions.IndexOf(ms) + 1,
+                                Count = membership.MembershipSessions
+                                    .OrderBy(ob => ob.Start.HasValue ? 0 : 1)
+                                    .ThenBy(ob => ob.Start)
+                                    .ToList()
+                                    .IndexOf(ms) + 1,
                             })
                             .ToList(),
                 FrozenDate = membership.FrozenDate,
@@ -116,6 +122,13 @@ namespace GroundUp.Api.Pages.Memberships
 
         public async Task<IActionResult> OnPostUpdateMembershipAsync(CancellationToken cancellationToken)
         {
+            var existingMembership = await this.membershipService.GetMembershipByIdAsync(this.Update.Id, cancellationToken);
+
+            if (existingMembership == null)
+            {
+                return this.RedirectToPage("Membership", new { id = this.MembershipId });
+            }
+
             var update = new UpdateMembershipDto()
             {
                 Id = this.Update.Id,
@@ -125,7 +138,8 @@ namespace GroundUp.Api.Pages.Memberships
                 FrozenDate = this.Update.FrozenDate,
             };
 
-            await Task.FromResult(1);
+            await this.membershipService.UpdateAsync(update, cancellationToken);
+
             return this.RedirectToPage("Membership", new { id = this.MembershipId });
         }
 
@@ -217,12 +231,28 @@ namespace GroundUp.Api.Pages.Memberships
 
         public async Task<IActionResult> OnPostUpdateMembershipSessionAsync(MembershipSessionViewModel dto, CancellationToken cancellationToken)
         {
+            var correctedStart = dto.Start;
+            var correctedEnd = dto.End;
+
+            if (correctedStart.HasValue)
+            {
+                correctedStart = new DateTime(
+                correctedStart.Value.Year,
+                correctedStart.Value.Month,
+                correctedStart.Value.Day,
+                correctedStart.Value.Hour,
+                0,
+                0);
+
+                correctedEnd = correctedStart.Value.AddMinutes(55);
+            }
+
             var update = new UpdateMembershipSessionDto()
             {
                 Id = dto.SessionId,
                 MembershipId = this.MembershipId,
-                Start = dto.Start,
-                End = dto.End,
+                Start = correctedStart,
+                End = correctedEnd,
                 IsCancelled = dto.IsCancelled,
                 Comment = dto.Comment
             };

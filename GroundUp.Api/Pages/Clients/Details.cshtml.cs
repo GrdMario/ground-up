@@ -74,6 +74,8 @@ namespace GroundUp.Api.Pages.Clients
                     SessionCount = s.SessionCount,
                     MembershipSessions =
                         s.MembershipSessions
+                            .OrderBy(ob => ob.Start.HasValue ? 0 : 1)
+                            .ThenBy(ob => ob.Start)
                             .Select(ms => new MembershipSessionViewModel()
                             {
                                 SessionId = ms.Id,
@@ -85,7 +87,11 @@ namespace GroundUp.Api.Pages.Clients
                                 ClientId = s.ClientId,
                                 Start = ms.Start,
                                 CreatedAt = ms.CreatedAt,
-                                Count = s.MembershipSessions.IndexOf(ms) + 1,
+                                Count = s.MembershipSessions
+                                    .OrderBy(ob => ob.Start.HasValue ? 0 : 1)
+                                    .ThenBy(ob => ob.Start)
+                                    .ToList()
+                                    .IndexOf(ms) + 1,
                             })
                             .ToList(),
                     SessionsLeft = s.MembershipSessions.Where(ms => ms.Start == null && ms.End == null && ms.IsCancelled == false).Count(),
@@ -141,12 +147,28 @@ namespace GroundUp.Api.Pages.Clients
 
         public async Task<IActionResult> OnPostUpdateMembershipSessionAsync(MembershipSessionViewModel dto, CancellationToken cancellationToken)
         {
+            var correctedStart = dto.Start;
+            var correctedEnd = dto.End;
+
+            if (correctedStart.HasValue)
+            {
+                correctedStart = new DateTime(
+                correctedStart.Value.Year,
+                correctedStart.Value.Month,
+                correctedStart.Value.Day,
+                correctedStart.Value.Hour,
+                0,
+                0);
+
+                correctedEnd = correctedStart.Value.AddMinutes(55);
+            }
+
             var update = new UpdateMembershipSessionDto()
             {
                 Id = dto.SessionId,
                 MembershipId = dto.MembershipId,
-                Start = dto.Start,
-                End = dto.End,
+                Start = correctedStart,
+                End = correctedEnd,
                 IsCancelled = dto.IsCancelled,
                 Comment = dto.Comment
             };

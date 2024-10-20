@@ -20,12 +20,13 @@
                             <label for="Update.Start" class="my-2">Start</label>
                             <input asp-for="Update.Start" id="Update.Id" class="form-control" type="datetime-local" />
                         </div>
+                        <small class="form-text text-muted">Note, system automatically ignores minutes and seconds and will adjust Start and End time of session.</small>
                     </div>
 
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="Update.End" class="my-2">End</label>
-                            <input asp-for="Update.End" id="Update.End" class="form-control" type="datetime-local" />
+                            <input asp-for="Update.End" id="Update.End" class="form-control" type="datetime-local" readonly />
                         </div>
                     </div>
                 </div>
